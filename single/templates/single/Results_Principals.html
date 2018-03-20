@@ -1,0 +1,40 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Ergebnis
+{% endblock %}
+
+{% block content %}
+<p>
+	Ihre Rolle: Kunde
+</p>
+<p>
+	Sie wollten: {{ player.category }}
+</p>
+<p>
+	Ihr Finanzberater hat gewählt: {{ player.investment }}
+</p>
+<p>
+{% if group.investment_outcome == 1 %}
+
+	Die Investition war erfolgreich.
+
+{% else %}
+
+	Die Investition war nicht erfolgreich.
+
+{% endif %}
+</p>
+
+<p>
+	Ihr payoff: {{ player.payoff }}
+</p>
+
+<p>
+{% formfield player.message %}
+
+    {% next_button %}
+{% endblock %}
+
+

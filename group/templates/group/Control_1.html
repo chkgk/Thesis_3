@@ -1,0 +1,38 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Page title
+{% endblock %}
+
+{% block content %}
+
+<p><strong>Frage 1</strong></p>
+<p>
+{% formfield player.question_1 %}
+</p>
+
+<p><strong>Frage 2</strong></p>
+<p>
+{% formfield player.question_2 %}
+</p>
+
+<p><strong>Frage 3</strong></p>
+<p>
+{% formfield player.question_3 %}
+</p>
+
+<p><strong>Frage 4</strong></p>
+<p>
+{% formfield player.question_4 %}
+</p>
+
+<p><strong>Frage 5</strong></p>
+<p>
+{% formfield player.question_5 %}
+</p>
+
+
+    {% next_button %}
+
+{% endblock %}

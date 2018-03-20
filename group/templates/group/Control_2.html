@@ -1,0 +1,114 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Page title
+{% endblock %}
+
+{% block content %}
+
+<p><strong>Frage 1</strong></p>
+
+{% if player.question_1 == 1 %}
+
+	<p><span style="color: #339966;">Ihre Antwort war richtig.</span></p>
+	<p>
+	{% formfield player.question_1 %}
+	</p>
+
+{% elif player.question_1 == 0 %}
+
+	<p><span style="color: #ff0000;">Ihre Antwort war falsch. Bitte lesen Sie die Erklärung nochmals durch und korrigieren Sie Ihre Antwort.</span></p>
+	<p> Erklärung 1 </p>
+	<p>
+	{% formfield player.question_1 %}
+	</p>
+
+
+{% endif %}
+
+
+<p><strong>Frage 2</strong></p>
+
+{% if player.question_2 == 1 %}
+
+	<p><span style="color: #ff0000;">Ihre Antwort war falsch. Bitte lesen Sie die Erklärung nochmals durch und korrigieren Sie Ihre Antwort.</span></p>
+	<p> Erklärung 2 </p>
+	<p>
+	{% formfield player.question_2 %}
+	</p>
+
+{% elif player.question_2 == 0 %}
+
+	<p><span style="color: #339966;">Ihre Antwort war richtig.</span></p>
+	<p>
+	{% formfield player.question_2 %}
+	</p>
+
+{% endif %}
+
+
+<p><strong>Frage 3</strong></p>
+
+{% if player.question_3 == 1 %}
+
+	<p><span style="color: #339966;">Ihre Antwort war richtig.</span></p>
+	<p>
+	{% formfield player.question_3 %}
+	</p>
+
+{% elif player.question_3 == 0 %}
+
+	<p><span style="color: #ff0000;">Ihre Antwort war falsch. Bitte lesen Sie die Erklärung nochmals durch und korrigieren Sie Ihre Antwort.</span></p>
+	<p> Erklärung 3 </p>
+	<p>
+	{% formfield player.question_3 %}
+	</p>
+
+
+{% endif %}
+
+
+<p><strong>Frage 4</strong></p>
+
+{% if player.question_4 == 1 %}
+
+	<p><span style="color: #ff0000;">Ihre Antwort war falsch. Bitte lesen Sie die Erklärung nochmals durch und korrigieren Sie Ihre Antwort.</span></p>
+	<p> Erklärung 4 </p>
+	<p>
+	{% formfield player.question_4 %}
+	</p>
+
+{% elif player.question_4 == 0 %}
+
+	<p><span style="color: #339966;">Ihre Antwort war richtig.</span></p>
+	<p>
+	{% formfield player.question_4 %}
+	</p>
+
+{% endif %}
+
+
+<p><strong>Frage 5</strong></p>
+
+{% if player.question_5 == 1 %}
+
+	<p><span style="color: #339966;">Ihre Antwort war richtig.</span></p>
+	<p>
+	{% formfield player.question_5 %}
+	</p>
+
+{% elif player.question_5 == 0 %}
+
+	<p><span style="color: #ff0000;">Ihre Antwort war falsch. Bitte lesen Sie die Erklärung nochmals durch und korrigieren Sie Ihre Antwort.</span></p>
+	<p> Erklärung 5 </p>
+	<p>
+	{% formfield player.question_5 %}
+	</p>
+
+
+{% endif %}
+
+    {% next_button %}
+
+{% endblock %}

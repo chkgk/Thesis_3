@@ -1,0 +1,16 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Finanzberater
+{% endblock %}
+
+{% block content %}
+
+	Ihr Kunde wollte: {{ player.category_from_principal }}
+
+	{% formfield player.decision_for_principal %}
+
+    {% next_button %}
+
+{% endblock %}
