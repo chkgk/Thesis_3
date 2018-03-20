@@ -32,6 +32,15 @@ class ResultsWaitPage(WaitPage):
 		self.subsession.set_groups()
 
 
+class Hilfe(Page):
+
+	##################### Christian: Ich weiß nicht wie ich das ohne eine Hilsseite machen soll ###################################
+
+	def before_next_page(self):
+		self.player.determine_roles()
+
+
+
 class Results(Page):
 	pass
 
@@ -59,6 +68,7 @@ page_sequence = [
 #	Control_2,
 	MyPage,
 	ResultsWaitPage,
+	Hilfe,
 	Results,
 #	Questionnaire
 ]

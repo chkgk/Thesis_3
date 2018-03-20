@@ -29,6 +29,14 @@ class Constants(BaseConstants):
 
 
 class Subsession(BaseSubsession):
+
+	def creating_session(self):
+		random_number = random.randint(1,2)
+		player_list = self.get_players()
+		for player in player_list:
+			player.compensation = self.session.config["compensation"]
+			player.participation_fee = self.session.config["participation_fee"]
+			player.random_number = random_number
 	
 	def set_groups(self):
 
@@ -83,6 +91,38 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+
+	my_group_id = models.IntegerField()
+
+	random_number = models.IntegerField()
+
+	compensation = models.CharField(
+		doc="Compensation scheme put in place for agents (see Settings)."
+		)
+
+	participation_fee = models.IntegerField(
+		doc="Participation fee for all agents."
+		)
+
+	roles = models.CharField()
+	# Mit der normalen role Funktion klappt es nicht, dass ich die Results Seiten auf die Rolle bedinge.
+
+	def determine_roles(self):
+		if self.random_number == 1:
+			# if the random number is 1 then participants with even group ID are principals and with odd IDs are agents.
+			if self.id_in_group % 2 == 0:
+				self.roles = "Principal"
+			elif self.self.id_in_group % 2 != 0:
+				self.roles = "Agent"
+		elif self.random_number == 2:
+			# if the random number is 2 then participants with even group ID are agents and with odd IDs are principals.
+			if self.id_in_group % 2 == 0:
+				self.roles = "Agent"
+			elif self.self.id_in_group % 2 != 0:
+				self.roles = "Principal"
+
+
+
 	
 	category = models.CharField(
 		choices=Constants.category_names,
@@ -91,7 +131,13 @@ class Player(BasePlayer):
 		doc="Principals choose the category which is communicated to their agent"
 		)
 
-	my_group_id = models.IntegerField()
+
+
+
+
+
+
+
 
 
 
