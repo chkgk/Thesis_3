@@ -2,16 +2,24 @@ from otree.api import Currency as c, currency_range
 from ._builtin import Page, WaitPage
 from .models import Constants
 
+class Welcome(Page):
+	pass
+
+
+class Instructions1(Page):
+	pass
+
+
+class Instructions2(Page):
+	pass
 
 
 class Control_1(Page):
-	
 	form_model = "player"
 	form_fields = ["question_1", "question_2", "question_3", "question_4", "question_5"]
 
 
 class Control_2(Page):
-	
 	form_model = "player"
 	form_fields = ["question_1", "question_2", "question_3", "question_4", "question_5"]
 
@@ -20,124 +28,86 @@ class Control_2(Page):
 			return "Bitte korrigieren Sie falsch beantwortete Fragen."
 
 
-
-class MyPage(Page):
-
+class CategoryPick(Page):
 	form_model = "player"
 	form_fields = ["category"]
 
-#	def before_next_page(self):
-#		self.player.determine_roles()
 
-
-class ResultsWaitPage(WaitPage):
-	
+class CategoryWaitPage(WaitPage):
 	wait_for_all_groups = True
+
 	def after_all_players_arrive(self):
 		self.subsession.set_groups()
-
-
-class Hilfe(Page):
-
-	##################### Christian: Ich weiß nicht wie ich das ohne eine Hilsseite machen soll ###################################
-
-	def before_next_page(self):
-		self.player.determine_roles()
-		self.player.get_category()
+		# weil wait_for_all_groups gesetzt ist, wird die Funktion nur einmal aufgerufen,
+		# folglich muss ich dann noch eine Ebene über die Gruppe hinaus auf die Subsession
+		# in der aufgerufenen Funktion auf der Subsession-Ebene wird dann durch alle Gruppen gegangen
+		# und da dann jeweils durch jeden Spieler um die Category zu kommunizieren.
+		self.subsession.communicate_categories()
 
 
 class Agent(Page):
-
 	form_model = "player"
 	form_fields = ["decision_for_principal"]
 
 
 class WaitPage1(WaitPage):
-
 	def after_all_players_arrive(self):
-		self.group.determine_outcome()
+		self.group.after_investments()
 
 
-class Hilfe2(Page):
-
-	##################### Christian: Ich weiß nicht wie ich das ohne eine Hilsseite machen soll ###################################
-
-	def before_next_page(self):
-		self.player.get_investment()
-		self.player.calculate_payoffs_principals()
-
-
-class Results_Principals(Page):
-	
+class Results_Principals(Page):	
 	def is_displayed(self):
-		return self.player.roles == "Principal"
+		return self.player.role() == "Principal"
 
 	form_model = "player"
 	form_fields = ["message"]
 
 
 class WaitForPrincipals(WaitPage):
-
 	def after_all_players_arrive(self):
-		pass
-
-class Hilfe4(Page):
-
-	##################### Christian: Ich weiß nicht wie ich das ohne eine Hilsseite machen soll ###################################
-
-	def before_next_page(self):
-		self.player.get_message()
-		self.player.get_payoff_of_principal()
-		self.player.get_profit_of_principal()
-		self.player.calculate_payoffs_agents()
+		self.group.after_results_principals()
 
 
 class Results_Agents(Page):
-	
 	def is_displayed(self):
-		return self.player.roles == "Agent"
+		return self.player.role() == "Agent"
 
 
 class Questionnaire(Page):
-
 	form_model = "player"
-	form_fields = ["age", "gender", "studies", "studies2", "financial_advice", "income"]
+	form_fields = ["age", "gender", "studies", "nonstudent", "financial_advice", "income"]
 
-	
-	####################### Christian: Validating multiple form fields together does not work ######################################
+	# This works now, but is not in compliance with the oTree manual.. I guess we found a bug.
 	# returns an error message if a participant...
 	def error_message(self, values):
 		# ... indicates field of studies and ticks the box "non-student".
-		if "studies" in values:
-			if values["studies2"]:
-				return "You stated a field of studies, but indicated that you are a non-student."
+		if values["studies"]:
+			if values["nonstudent"]:
+				return "Bitte geben Sie entweder ein Studienfach an oder wählen Sie \"Kein Student\""
 		# ... states no field of studies and and does not tick the box.
 		else:
 		#elif "studies" not in values:
-			if not values["studies2"]:
-				return "Are you a non-student?"
+			if not values["nonstudent"]:
+				return "Sie haben kein Studienfach angegeben. Wenn Sie kein Student sind, treffen Sie bitte eine entsprechende Auswahl."
 
 class Last_Page(Page):
-
 	pass
 
 
 
 page_sequence = [
+# 	Welcome,
+#	Instructions1,
+# 	Instructions2,
 	Control_1,
 	Control_2,
-	MyPage,
-	ResultsWaitPage,
-	Hilfe,
+	CategoryPick,
+	CategoryWaitPage,
 	Agent,
 	WaitPage1,
-	Hilfe2,
-#	Hilfe3,
-#	WaitForAgents,
 	Results_Principals,
 	WaitForPrincipals,
-	Hilfe4,
 	Results_Agents,
-#	Questionnaire,
+	Questionnaire,
 	Last_Page
 ]
