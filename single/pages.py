@@ -6,6 +6,22 @@ class Welcome(Page):
 	pass
 
 
+class CategoryElicitation(Page):
+	form_model = "player"
+	form_fields = [
+		'cat_end_rel_1', 
+		'cat_end_rel_2', 
+		'cat_end_rel_3',
+		'cat_end_rel_4',
+		'cat_end_rel_5',
+
+		'cat_end_abs_1', 
+		'cat_end_abs_2', 
+		'cat_end_abs_3',
+		'cat_end_abs_4',
+		'cat_end_abs_5',
+	]
+
 class Instructions1(Page):
 	pass
 
@@ -96,18 +112,19 @@ class Last_Page(Page):
 
 
 page_sequence = [
-# 	Welcome,
-#	Instructions1,
-# 	Instructions2,
-	Control_1,
-	Control_2,
-	CategoryPick,
-	CategoryWaitPage,
-	Agent,
-	WaitPage1,
-	Results_Principals,
-	WaitForPrincipals,
-	Results_Agents,
-	Questionnaire,
-	Last_Page
+	# Welcome,
+	# Instructions1,
+	CategoryElicitation,
+	# Instructions2,
+	# Control_1,
+	# Control_2,
+	# CategoryPick,
+	# CategoryWaitPage,
+	# Agent,
+	# WaitPage1,
+	# Results_Principals,
+	# WaitForPrincipals,
+	# Results_Agents,
+	# Questionnaire,
+	# Last_Page
 ]

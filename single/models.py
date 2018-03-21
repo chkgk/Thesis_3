@@ -277,3 +277,16 @@ class Player(BasePlayer):
 		verbose_name="Wie viel Geld im Monat steht Ihnen frei zur Verfügung?",
 		doc="We ask participants how much money they have freely available each month.")
 
+	# fields for risk elicitation
+
+	cat_end_rel_1 = models.FloatField()
+	cat_end_rel_2 = models.FloatField()
+	cat_end_rel_3 = models.FloatField()
+	cat_end_rel_4 = models.FloatField()
+	cat_end_rel_5 = models.FloatField()
+
+	cat_end_abs_1 = models.IntegerField()
+	cat_end_abs_2 = models.IntegerField()
+	cat_end_abs_3 = models.IntegerField()
+	cat_end_abs_4 = models.IntegerField()
+	cat_end_abs_5 = models.FloatField()
