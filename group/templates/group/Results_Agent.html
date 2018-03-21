@@ -10,10 +10,24 @@
 	Ihre Rolle: Finanzberater
 </p>
 <p>
-	Ihr Kunde wollte:
+	Ihr Kunde wollte: {{ player.category_from_principal }}
 </p>
 <p>
-	Sie haben investiert:
+	Sie haben investiert: {{ player.invested_amount }}
+</p>
+<p>
+{% if player.outcome_of_principal == 1 %}
+
+	Die Investition war erfolgreich.
+
+{% elif player.outcome_of_principal == 0 %}
+
+	Die Investition war nicht erfolgreich.
+
+{% endif %}
+</p>
+<p>
+	Payoff vom Kunden: {{ player.payoff_of_principal }}
 </p>
 <p>
 	Nachricht vom Kunden: {{ player.message_from_principal }}

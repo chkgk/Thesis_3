@@ -40,6 +40,7 @@ class Hilfe(Page):
 		self.player.determine_roles()
 		self.player.find_principals()
 		self.player.find_partners()
+		self.player.get_category()
 
 
 class Agent(Page):
@@ -68,6 +69,7 @@ class Hilfe2(Page):
 	def before_next_page(self):
 		self.player.get_investment()
 		self.player.calculate_payoffs_principals()
+		self.player.get_outcome_of_principal()
 
 
 class Results_Principal(Page):
@@ -88,7 +90,11 @@ class WaitPage2(WaitPage):
 class Hilfe3(Page):
 
 	def before_next_page(self):
+		self.player.get_invested_amount()
 		self.player.get_message()
+		self.player.get_payoff_of_principal()
+		self.player.get_profit_of_principal()
+		self.player.calculate_payoffs_agents()
 
 
 class Results_Agent(Page):
@@ -115,6 +121,11 @@ class Questionnaire(Page):
 				return "Are you a non-student?"
 
 
+class Last_Page(Page):
+
+	pass
+
+
 page_sequence = [
 #	Control_1,
 #	Control_2,
@@ -128,5 +139,6 @@ page_sequence = [
 	WaitPage2,
 	Hilfe3,
 	Results_Agent,
-#	Questionnaire
+#	Questionnaire,
+	Last_Page
 ]

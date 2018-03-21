@@ -28,7 +28,7 @@ SESSION_CONFIGS = [
         'display_name': "GROUP Treatments",
         'num_demo_participants': 6,
         'app_sequence': ['group'],
-        'compensation': 'fixed',     # Enter either fixed, variable_result or variable_profit
+        'compensation': 'variable_result',     # Enter either fixed, variable_result or variable_profit
 
     },
 ]

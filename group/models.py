@@ -26,7 +26,8 @@ class Constants(BaseConstants):
 
 	#Variable Compensation
 	variable_payment = c(5)			# Fixer Anteil für die Agenten
-	share = 25
+	share_result = 25
+	share_profit = 25
 
 
 class Subsession(BaseSubsession):
@@ -101,7 +102,7 @@ class Player(BasePlayer):
 		doc="Compensation scheme put in place for agents (see Settings)."
 		)
 
-	participation_fee = models.IntegerField(
+	participation_fee = models.CurrencyField(
 		doc="Participation fee for all agents."
 		)
 
@@ -116,12 +117,46 @@ class Player(BasePlayer):
 			self.roles = "Agent"
 
 
+# Assign partners (i.e. build principal agent couples: 1-2, 3-4, 5-6)
+
+	partner = models.IntegerField(
+		doc="Gives the ID in Group of the partner.")
+
+	def find_partners(self):
+		if self.id_in_group == 1:
+			self.partner = 2
+		elif self.id_in_group == 2:
+			self.partner = 1
+		elif self.id_in_group == 3:
+			self.partner = 4
+		elif self.id_in_group == 4:
+			self.partner = 3
+		elif self.id_in_group == 5:
+			self.partner = 6
+		elif self.id_in_group == 6:
+			self.partner = 5
+
+
+
+# Everyone chooses the category:
+
 	category = models.CharField(
 		choices=Constants.category_names,
 		widget=widgets.RadioSelect(),
 		verbose_name="Bitte wählen Sie nun einen der fünf Begriffe:",
 		doc="Principals choose the category which is communicated to their agent"
 		)
+
+
+	category_from_principal = models.CharField(
+		doc="Category that agents receive from their principals indicating how they want their agent to invest. Only for the agent who is payoff relevant."
+		)
+
+
+	def get_category(self):
+		if self.roles == "Agent":
+			principal = self.get_others_in_group()[int(self.partner)-2]
+			self.category_from_principal = principal.category
 
 
 
@@ -215,6 +250,9 @@ class Player(BasePlayer):
 		)
 
 
+
+# principals can send messages to their agents:
+
 	message = models.CharField(
 		choices=["Ich bin sehr zufrieden mit Ihrer Entscheidung", "Ich bin zufrieden mit Ihrer Entscheidung",
 		"Ich bin unzufrieden mit Ihrer Entscheidung", "Ich bin sehr unzufrieden mit Ihrer Entscheidung"],
@@ -230,42 +268,13 @@ class Player(BasePlayer):
 
 	def get_message(self):
 		if self.roles == "Agent":
-			partner = self.get_others_in_group()[int(self.partner)-1]
-			print(partner)
-			if self.id_in_group == 1:
-				self.message_from_principal = partner.message
-			if self.id_in_group == 3:
-				self.message_from_principal = partner.message
-			if self.id_in_group == 5:
-				self.message_from_principal = partner.message
+			principal = self.get_others_in_group()[int(self.partner)-2]
+			self.message_from_principal = principal.message
+
+	
 
 
-
-
-
-
-
-
-# Payoffs
-
-	partner = models.IntegerField(
-		doc="Gives the ID in Group of the partner.")
-
-	def find_partners(self):
-		if self.id_in_group == 1:
-			self.partner = 2
-		elif self.id_in_group == 2:
-			self.partner = 1
-		elif self.id_in_group == 3:
-			self.partner = 4
-		elif self.id_in_group == 4:
-			self.partner = 3
-		elif self.id_in_group == 5:
-			self.partner = 6
-		elif self.id_in_group == 6:
-			self.partner = 5
-
-
+# Payoffs:
 
 	investment = models.CurrencyField(
 		doc="Indicates for everyone the investment decision as taken by their agents."
@@ -273,13 +282,25 @@ class Player(BasePlayer):
 
 	def get_investment(self):
 		if self.roles == "Principal":
-			partner = self.get_others_in_group()[int(self.partner)-1]
+			agent = self.get_others_in_group()[int(self.partner)-1]
 			if self.id_in_group == 2:
-				self.investment = partner.decision_for_p1
+				self.investment = agent.decision_for_p1
 			if self.id_in_group == 4:
-				self.investment = partner.decision_for_p3
+				self.investment = agent.decision_for_p3
 			if self.id_in_group == 6:
-				self.investment = partner.decision_for_p5
+				self.investment = agent.decision_for_p5
+
+
+	# Damit die Agenten ihre Investitionen für den für die Auszahlung relevanten Prinzipal sehen:
+
+	invested_amount = models.CurrencyField(
+		doc="For agents, this gives us the investment in the risky option for their relevant principal (agents own decision).")
+
+	def get_invested_amount(self):
+		if self.roles == "Agent":
+			principal = self.get_others_in_group()[int(self.partner)-2]
+			self.invested_amount = principal.investment
+
 
 
 
@@ -296,6 +317,20 @@ class Player(BasePlayer):
 		doc="Turns 1 if the investment was successful and 0 in case it was not."
 		)
 
+
+	# Get outcome of the principals as a variable for the agents:
+
+	outcome_of_principal = models.IntegerField(
+		doc="Message that agents receive from their principals."
+		)
+
+	def get_outcome_of_principal(self):
+		if self.roles == "Agent":
+			principal = self.get_others_in_group()[int(self.partner)-2]
+			self.outcome_of_principal = principal.investment_outcome
+
+
+
 	def calculate_payoffs_principals(self):
 		if self.roles == "Principal":
 			if self.investment_outcome == 1:
@@ -306,34 +341,38 @@ class Player(BasePlayer):
 				self.profit = 0
 
 
+	profit = models.CurrencyField(
+		doc="Gives the profit of the principal."
+		)
+
+	payoff_of_principal = models.CurrencyField(
+		doc="Gives for each agent the payoff of his principal."
+		)
+
+	def get_payoff_of_principal(self):
+		if self.roles == "Agent":
+			principal = self.get_others_in_group()[int(self.partner)-2]
+			self.payoff_of_principal = principal.payoff
 
 
+	profit_of_principal = models.CurrencyField(
+		doc="Gives for each agent the payoff of his principal."
+		)
+
+	def get_profit_of_principal(self):
+		if self.roles == "Agent":
+			principal = self.get_others_in_group()[int(self.partner)-2]
+			self.profit_of_principal = principal.profit
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	def calculate_payoffs_agents(self):
+		if self.roles == "Agent":
+			if self.compensation == "fixed":
+				self.payoff = Constants.fixed_payment
+			if self.compensation == "variable_result":
+				self.payoff = Constants.variable_payment + Constants.share_result/100 * self.payoff_of_principal
+			if self.compensation == "variable_profit":
+				self.payoff = Constants.variable_payment + Constants.share_profit/100 * self.profit_of_principal
 
 
 
