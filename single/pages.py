@@ -117,6 +117,10 @@ class Questionnaire(Page):
 			if not values["studies2"]:
 				return "Are you a non-student?"
 
+class Last_Page(Page):
+
+	pass
+
 
 
 page_sequence = [
@@ -134,5 +138,6 @@ page_sequence = [
 	WaitForPrincipals,
 	Hilfe4,
 	Results_Agents,
-	Questionnaire
+#	Questionnaire,
+	Last_Page
 ]

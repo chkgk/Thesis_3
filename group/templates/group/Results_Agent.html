@@ -1,0 +1,25 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Ergebnis
+{% endblock %}
+
+{% block content %}
+<p>
+	Ihre Rolle: Finanzberater
+</p>
+<p>
+	Ihr Kunde wollte:
+</p>
+<p>
+	Sie haben investiert:
+</p>
+<p>
+	Nachricht vom Kunden: {{ player.message_from_principal }}
+</p>
+
+    {% next_button %}
+{% endblock %}
+
+

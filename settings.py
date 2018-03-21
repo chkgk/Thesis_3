@@ -11,7 +11,7 @@ import otree.settings
 
 SESSION_CONFIG_DEFAULTS = {
     'real_world_currency_per_point': 1.00,
-    'participation_fee': 0.00,
+    'participation_fee': 2.00,
     'doc': "",
 }
 
@@ -26,9 +26,9 @@ SESSION_CONFIGS = [
     {
         'name': 'group',
         'display_name': "GROUP Treatments",
-        'num_demo_participants': 2,
+        'num_demo_participants': 6,
         'app_sequence': ['group'],
-        'compensation': 'variable',     # Enter either fixed, variable_result or variable_profit
+        'compensation': 'fixed',     # Enter either fixed, variable_result or variable_profit
 
     },
 ]

@@ -3,6 +3,7 @@ from otree.api import (
 	Currency as c, currency_range
 )
 
+import random
 
 author = 'Your name here'
 
@@ -54,7 +55,7 @@ class Subsession(BaseSubsession):
 					
 
 		total_players = len(self.get_players())
-		group_size = 2
+		group_size = 6
 		number_groups = int(total_players / group_size)
 
 		print(cat_lists)
@@ -107,23 +108,14 @@ class Player(BasePlayer):
 	roles = models.CharField()
 	# Mit der normalen role Funktion klappt es nicht, dass ich die Results Seiten auf die Rolle bedinge.
 
+	# Gerade Nummern sind Prinzipale und ungerade Agenten
 	def determine_roles(self):
-		if self.random_number == 1:
-			# if the random number is 1 then participants with even group ID are principals and with odd IDs are agents.
-			if self.id_in_group % 2 == 0:
-				self.roles = "Principal"
-			elif self.self.id_in_group % 2 != 0:
-				self.roles = "Agent"
-		elif self.random_number == 2:
-			# if the random number is 2 then participants with even group ID are agents and with odd IDs are principals.
-			if self.id_in_group % 2 == 0:
-				self.roles = "Agent"
-			elif self.self.id_in_group % 2 != 0:
-				self.roles = "Principal"
+		if self.id_in_group % 2 == 0:
+			self.roles = "Principal"
+		elif self.id_in_group % 2 != 0:
+			self.roles = "Agent"
 
 
-
-	
 	category = models.CharField(
 		choices=Constants.category_names,
 		widget=widgets.RadioSelect(),
@@ -133,6 +125,185 @@ class Player(BasePlayer):
 
 
 
+# Part II: Investment for Group members
+	
+	c_principal_1 = models.CharField()
+	c_principal_2 = models.CharField()
+	c_principal_3 = models.CharField()
+	c_principal_4 = models.CharField()
+	c_principal_5 = models.CharField()
+
+	def find_principals(self):
+
+		# c for corresponding
+		if self.id_in_group == 1:
+			self.c_principal_1 = 2
+			self.c_principal_2 = 3
+			self.c_principal_3 = 4
+			self.c_principal_4 = 5
+			self.c_principal_5 = 6
+		elif self.id_in_group == 2:
+			self.c_principal_1 = 1
+			self.c_principal_2 = 3
+			self.c_principal_3 = 4
+			self.c_principal_4 = 5
+			self.c_principal_5 = 6
+		elif self.id_in_group == 3:
+			self.c_principal_1 = 1
+			self.c_principal_2 = 2
+			self.c_principal_3 = 4
+			self.c_principal_4 = 5
+			self.c_principal_5 = 6
+		elif self.id_in_group == 4:
+			self.c_principal_1 = 1
+			self.c_principal_2 = 2
+			self.c_principal_3 = 3
+			self.c_principal_4 = 5
+			self.c_principal_5 = 6
+		elif self.id_in_group == 5:
+			self.c_principal_1 = 1
+			self.c_principal_2 = 2
+			self.c_principal_3 = 3
+			self.c_principal_4 = 4
+			self.c_principal_5 = 6
+		elif self.id_in_group == 6:
+			self.c_principal_1 = 1
+			self.c_principal_2 = 2
+			self.c_principal_3 = 3
+			self.c_principal_4 = 4
+			self.c_principal_5 = 5
+
+
+	decision_for_p1 = models.CurrencyField(
+		min=0,
+		max=Constants.endowment_principals,
+		widget=widgets.Slider(),					# Neuer Slider von Christian
+		verbose_name="Ihre Investitionsentscheidung für Ihren Kunden:",
+		doc="Agents investment for the principal in the risky asset."
+		)
+		
+	decision_for_p2 = models.CurrencyField(
+		min=0,
+		max=Constants.endowment_principals,
+		widget=widgets.Slider(),					# Neuer Slider von Christian
+		verbose_name="Ihre Investitionsentscheidung für Ihren Kunden:",
+		doc="Agents investment for the principal in the risky asset."
+		)
+
+	decision_for_p3 = models.CurrencyField(
+		min=0,
+		max=Constants.endowment_principals,
+		widget=widgets.Slider(),					# Neuer Slider von Christian
+		verbose_name="Ihre Investitionsentscheidung für Ihren Kunden:",
+		doc="Agents investment for the principal in the risky asset."
+		)
+
+	decision_for_p4 = models.CurrencyField(
+		min=0,
+		max=Constants.endowment_principals,
+		widget=widgets.Slider(),					# Neuer Slider von Christian
+		verbose_name="Ihre Investitionsentscheidung für Ihren Kunden:",
+		doc="Agents investment for the principal in the risky asset."
+		)
+
+	decision_for_p5 = models.CurrencyField(
+		min=0,
+		max=Constants.endowment_principals,
+		widget=widgets.Slider(),					# Neuer Slider von Christian
+		verbose_name="Ihre Investitionsentscheidung für Ihren Kunden:",
+		doc="Agents investment for the principal in the risky asset."
+		)
+
+
+	message = models.CharField(
+		choices=["Ich bin sehr zufrieden mit Ihrer Entscheidung", "Ich bin zufrieden mit Ihrer Entscheidung",
+		"Ich bin unzufrieden mit Ihrer Entscheidung", "Ich bin sehr unzufrieden mit Ihrer Entscheidung"],
+		widget=widgets.RadioSelect(),
+		verbose_name="Wählen Sie dazu eine der vorgefertigten Mitteilungen aus:",
+		doc="Principals choose the message to send to the agents."
+		)
+
+
+	message_from_principal = models.CharField(
+		doc="Message that agents receive from their principals."
+		)
+
+	def get_message(self):
+		if self.roles == "Agent":
+			partner = self.get_others_in_group()[int(self.partner)-1]
+			print(partner)
+			if self.id_in_group == 1:
+				self.message_from_principal = partner.message
+			if self.id_in_group == 3:
+				self.message_from_principal = partner.message
+			if self.id_in_group == 5:
+				self.message_from_principal = partner.message
+
+
+
+
+
+
+
+
+# Payoffs
+
+	partner = models.IntegerField(
+		doc="Gives the ID in Group of the partner.")
+
+	def find_partners(self):
+		if self.id_in_group == 1:
+			self.partner = 2
+		elif self.id_in_group == 2:
+			self.partner = 1
+		elif self.id_in_group == 3:
+			self.partner = 4
+		elif self.id_in_group == 4:
+			self.partner = 3
+		elif self.id_in_group == 5:
+			self.partner = 6
+		elif self.id_in_group == 6:
+			self.partner = 5
+
+
+
+	investment = models.CurrencyField(
+		doc="Indicates for everyone the investment decision as taken by their agents."
+		)
+
+	def get_investment(self):
+		if self.roles == "Principal":
+			partner = self.get_others_in_group()[int(self.partner)-1]
+			if self.id_in_group == 2:
+				self.investment = partner.decision_for_p1
+			if self.id_in_group == 4:
+				self.investment = partner.decision_for_p3
+			if self.id_in_group == 6:
+				self.investment = partner.decision_for_p5
+
+
+
+	# Investition in risky asset: Erfolgreich oder nicht erfolgreich:
+	def determine_outcome(self):
+		randomizer = random.randint(1,3)
+		if self.roles == "Principal":
+			if randomizer == 1:
+				self.investment_outcome = 1
+			else:
+				self.investment_outcome = 0
+
+	investment_outcome = models.IntegerField(
+		doc="Turns 1 if the investment was successful and 0 in case it was not."
+		)
+
+	def calculate_payoffs_principals(self):
+		if self.roles == "Principal":
+			if self.investment_outcome == 1:
+				self.payoff = self.investment * 3.5 + (Constants.endowment_principals - self.investment)
+				self.profit = self.investment * 2.5
+			elif self.investment_outcome == 0:
+				self.payoff = Constants.endowment_principals - self.investment
+				self.profit = 0
 
 
 

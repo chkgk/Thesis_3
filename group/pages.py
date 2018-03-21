@@ -38,11 +38,63 @@ class Hilfe(Page):
 
 	def before_next_page(self):
 		self.player.determine_roles()
+		self.player.find_principals()
+		self.player.find_partners()
 
 
+class Agent(Page):
 
-class Results(Page):
-	pass
+	def vars_for_template(self):
+		group = self.group.get_players()
+
+		return {'p1_category': group[int(self.player.c_principal_1)-1].category , 'p2_category': group[int(self.player.c_principal_2)-1].category, 'p3_category': group[int(self.player.c_principal_3)-1].category, 'p4_category': group[int(self.player.c_principal_4)-1].category, 'p5_category': group[int(self.player.c_principal_5)-1].category}
+	
+
+	form_model = "player"
+	form_fields = ["decision_for_p1", "decision_for_p2", "decision_for_p3", "decision_for_p4","decision_for_p5"]
+
+	def before_next_page(self):
+		self.player.determine_outcome()
+
+class WaitPage1(WaitPage):
+
+	def after_all_players_arrive(self):
+		pass
+
+class Hilfe2(Page):
+
+	##################### Christian: Ich weiß nicht wie ich das ohne eine Hilsseite machen soll ###################################
+
+	def before_next_page(self):
+		self.player.get_investment()
+		self.player.calculate_payoffs_principals()
+
+
+class Results_Principal(Page):
+
+	def is_displayed(self):
+		return self.player.roles == "Principal"
+
+	form_model = "player"
+	form_fields = ["message"]
+
+
+class WaitPage2(WaitPage):
+
+	def after_all_players_arrive(self):
+		pass
+
+
+class Hilfe3(Page):
+
+	def before_next_page(self):
+		self.player.get_message()
+
+
+class Results_Agent(Page):
+
+	def is_displayed(self):
+		return self.player.roles == "Agent"
 
 
 class Questionnaire(Page):
@@ -69,6 +121,12 @@ page_sequence = [
 	MyPage,
 	ResultsWaitPage,
 	Hilfe,
-	Results,
+	Agent,
+	WaitPage1,
+	Hilfe2,
+	Results_Principal,
+	WaitPage2,
+	Hilfe3,
+	Results_Agent,
 #	Questionnaire
 ]

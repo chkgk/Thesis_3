@@ -1,0 +1,39 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+	Sie sind nun ein Finanzberater.
+{% endblock %}
+
+{% block content %}
+
+
+	<p>
+	Ihr Kunde besitzt {{ Constants.endowment_principals }}.
+	</p>
+
+
+	<p>
+	Ihre Kunden haben folgende Begriffe gewählt:
+	</p>
+	<p>
+		Kunde 1: <strong>{{ p1_category}}</strong> gewählt. {% formfield player.decision_for_p1 %}
+	</p>
+	<p>
+		Kunde 2: <strong>{{ p2_category}}</strong> gewählt. {% formfield player.decision_for_p2 %}
+	</p>
+	<p>
+		Kunde 3: <strong>{{ p3_category }}</strong> gewählt. {% formfield player.decision_for_p3 %}
+	</p>
+	<p>
+		Kunde 4: <strong>{{ p4_category }}</strong> gewählt. {% formfield player.decision_for_p4 %}
+	</p>
+	<p>
+		Kunde 5: <strong>{{ p5_category }}</strong> gewählt. {% formfield player.decision_for_p5 %}
+	</p>
+
+	
+
+	{% next_button %}
+
+{% endblock %}

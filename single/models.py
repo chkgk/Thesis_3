@@ -112,7 +112,7 @@ class Player(BasePlayer):
 		doc="Compensation scheme put in place for agents (see Settings)."
 		)
 
-	participation_fee = models.IntegerField(
+	participation_fee = models.CurrencyField(
 		doc="Participation fee for all agents."
 		)
 
@@ -230,9 +230,6 @@ class Player(BasePlayer):
 				self.payoff = Constants.variable_payment + Constants.share_result/100 * self.payoff_of_principal
 			if self.compensation == "variable_profit":
 				self.payoff = Constants.variable_payment + Constants.share_profit/100 * self.profit_of_principal
-
-
-
 
 
 
