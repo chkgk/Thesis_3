@@ -48,6 +48,15 @@ class CategoryPick(Page):
 	form_model = "player"
 	form_fields = ["category"]
 
+	def vars_for_template(self):
+		return {
+			'width_a': self.player.cat_end_abs_1,
+			'width_b': self.player.cat_end_abs_2 - self.player.cat_end_abs_1,
+			'width_c': self.player.cat_end_abs_3 - self.player.cat_end_abs_2,
+			'width_d': self.player.cat_end_abs_4 - self.player.cat_end_abs_3,
+			'width_e': self.player.cat_end_abs_5 - self.player.cat_end_abs_4,
+		}
+
 
 class CategoryWaitPage(WaitPage):
 	wait_for_all_groups = True
@@ -112,19 +121,19 @@ class Last_Page(Page):
 
 
 page_sequence = [
-	# Welcome,
-	# Instructions1,
+	Welcome,
+	Instructions1,
 	CategoryElicitation,
-	# Instructions2,
-	# Control_1,
-	# Control_2,
-	# CategoryPick,
-	# CategoryWaitPage,
-	# Agent,
-	# WaitPage1,
-	# Results_Principals,
-	# WaitForPrincipals,
-	# Results_Agents,
-	# Questionnaire,
-	# Last_Page
+	Instructions2,
+	Control_1,
+	Control_2,
+	CategoryPick,
+	CategoryWaitPage,
+	Agent,
+	WaitPage1,
+	Results_Principals,
+	WaitForPrincipals,
+	Results_Agents,
+	Questionnaire,
+	Last_Page
 ]

@@ -5,8 +5,40 @@
     Begriff wählen
 {% endblock %}
 
-{% block content %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static "shared/category.css" %}">
+{% endblock %}
 
+{% block content %}
+    <p>Zur Erinnerung:</p>
+    <div id="super_box">
+        <div id="left_axis_label" class="axis_label">0%</div>
+        <div id="right_axis_label" class="axis_label">100%</div>
+        <div id="axis_box">
+            <div class="category_label" id="a" style="width: {{ width_a }}px; margin-right: 0px;">
+                <div class="label">sehr konservativ</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="b" style="width: {{ width_b }}px; margin-right: 0px;">
+                <div class="label">sicherheitsorientiert</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="c" style="width: {{ width_c }}px; margin-right: 0px;">
+                <div class="label">ausgeglichten</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="d" style="width: {{ width_d }}px; margin-right: 0px;">
+                <div class="label">wachstumsorientiert</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="e" style="width: {{ width_e }}px; margin-right: 0px;">
+                <div class="label">offensiv</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+        </div>
+    </div>
+    <p>&nbsp;</p>
+    
 	{% formfield player.category %}
 
     {% next_button %}

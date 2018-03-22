@@ -13,6 +13,34 @@ class PlayerBot(Bot):
 	def play_round(self):
 		# data definition
 		test_data = {
+			'Category_Elicitation': {
+				'invalid_inputs': {
+					'cat_end_abs_1': 'a',
+					'cat_end_abs_2': '2000',
+					'cat_end_abs_3': '',
+					'cat_end_abs_4': 'a',
+					'cat_end_abs_5': 5.4,
+
+					'cat_end_rel_1': -1,
+					'cat_end_rel_2': -1,
+					'cat_end_rel_3': -1,
+					'cat_end_rel_4': -1,
+					'cat_end_rel_5': -1,
+				},
+				'valid_inputs': {
+					'cat_end_abs_1': 200,
+					'cat_end_abs_2': 400,
+					'cat_end_abs_3': 600,
+					'cat_end_abs_4': 800,
+					'cat_end_abs_5': 1000,
+
+					'cat_end_rel_1': 0.2,
+					'cat_end_rel_2': 0.4,
+					'cat_end_rel_3': 0.6,
+					'cat_end_rel_4': 0.8,
+					'cat_end_rel_5': 1.0,
+				}
+			},
 			'Comprehension_1': {
 				'invalid_inputs': {
 					"question_1": ['a', ''], 
@@ -69,10 +97,14 @@ class PlayerBot(Bot):
 		excessive = False
 
 
-		# instructions
-		# yield (pages.Welcome)
-		# yield (pages.Instructions1)
-		# yield (pages.Instructions2)
+		# instructions 1
+		yield (pages.Welcome)
+		yield (pages.Instructions1)
+
+		yield (pages.CategoryElicitation, test_data['Category_Elicitation']['valid_inputs'])
+
+		# instructions 2
+		yield (pages.Instructions2)
 
 		# Comprehension Questions 1
 		# fail

@@ -289,4 +289,4 @@ class Player(BasePlayer):
 	cat_end_abs_2 = models.IntegerField()
 	cat_end_abs_3 = models.IntegerField()
 	cat_end_abs_4 = models.IntegerField()
-	cat_end_abs_5 = models.FloatField()
+	cat_end_abs_5 = models.IntegerField()
