@@ -43,18 +43,18 @@ class PlayerBot(Bot):
 			},
 			'Comprehension_1': {
 				'invalid_inputs': {
-					"question_1": ['a', ''], 
+					"question_1": ['a', 5], 
 					"question_2": ['a', ''], 
 					"question_3": ['a', ''], 
 					"question_4": ['a', ''], 
 					"question_5": ['a', '']
 				},
 				'valid_inputs': {
-					"question_1": True, 
-					"question_2": True, 
-					"question_3": True, 
-					"question_4": True, 
-					"question_5": True
+					"question_1": "Falsch", 
+					"question_2": "Richtig", 
+					"question_3": "Falsch", 
+					"question_4": 10, 
+					"question_5": 6
 				},
 			},
 			'Comprehension_2': {
@@ -66,11 +66,11 @@ class PlayerBot(Bot):
 					"question_5": ['a', '', True]
 				},
 				'valid_inputs': {
-					"question_1": True, 
-					"question_2": False, 
-					"question_3": True, 
-					"question_4": False, 
-					"question_5": True
+					"question_1": "Falsch", 
+					"question_2": "Richtig", 
+					"question_3": "Falsch", 
+					"question_4": 10, 
+					"question_5": 6
 				},
 			},
 			'Questionnaire': {
