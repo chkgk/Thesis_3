@@ -40,7 +40,7 @@ class Control_2(Page):
 	form_fields = ["question_1", "question_2", "question_3", "question_4", "question_5"]
 
 	def error_message(self, values):
-		if values["question_1"] == 0 or values["question_2"] == 1 or values["question_3"] == 0 or values["question_4"] == 1 or values["question_5"] == 0:
+		if values["question_1"] == "Richtig" or values["question_2"] == "Falsch" or values["question_3"] == "Richtig" or values["question_4"] != 10 or values["question_5"] != 6:
 			return "Bitte korrigieren Sie falsch beantwortete Fragen."
 
 
@@ -112,19 +112,19 @@ class Last_Page(Page):
 
 
 page_sequence = [
-	# Welcome,
-	# Instructions1,
+	Welcome,
+	Instructions1,
 	CategoryElicitation,
-	# Instructions2,
-	# Control_1,
-	# Control_2,
-	# CategoryPick,
-	# CategoryWaitPage,
-	# Agent,
-	# WaitPage1,
-	# Results_Principals,
-	# WaitForPrincipals,
-	# Results_Agents,
-	# Questionnaire,
-	# Last_Page
+	Instructions2,
+	Control_1,
+	Control_2,
+	CategoryPick,
+	CategoryWaitPage,
+	Agent,
+	WaitPage1,
+	Results_Principals,
+	WaitForPrincipals,
+	Results_Agents,
+	Questionnaire,
+	Last_Page
 ]

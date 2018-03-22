@@ -2,108 +2,118 @@
 {% load staticfiles otree %}
 
 {% block title %}
-    Page title
+    Verständnisfragen
 {% endblock %}
 
 {% block content %}
 
 <p><strong>Frage 1</strong></p>
 
-{% if player.question_1 == 1 %}
+{% if player.question_1 == "Falsch" %}
 
 	<p><span style="color: #339966;">Ihre Antwort war richtig.</span></p>
 	<p>
-	{% formfield player.question_1 %}
+	{% formfield player.question_1 label="Die Teilnehmer in diesem Experiment sind entweder Kunden oder Finanzberater, nehmen aber nicht beide Rollen ein." %}
 	</p>
 
-{% elif player.question_1 == 0 %}
+{% elif player.question_1 == "Richtig" %}
 
 	<p><span style="color: #ff0000;">Ihre Antwort war falsch. Bitte lesen Sie die Erklärung nochmals durch und korrigieren Sie Ihre Antwort.</span></p>
-	<p> Erklärung 1 </p>
+	<p> In diesem Experiment werden zunächst alle Teilnehmer beide Rollen annehmen: Die Rolle des Kunden und die Rolle des Finanzberaters.<br/> 
+	Jeder Teilnehmer ist zunächst Kunde und wählt einen der fünf Begriffe aus Teil 1 aus, um seinen Investitionswunsch zu signalisieren.
+	Dann nimmt jeder Teilnehmer die Rolle eines Finanzberaters ein und trifft die Investitionsentscheidungen für seine Kunden.<br/>
+	Der Computer wählt dann zufällig einen Teil der Teilnehmer aus, deren Beratungsentscheidung auszahlungsrelevant wird. Das heißt, die ausgewählten Teilnehmer erhalten die Auszahlung für ihre Entscheidung als Finanzberater. Die anderen, nicht ausgewählten Teilnehmer erhalten die Auszahlung für Ihre Rolle als Kunde und bekommen entsprechend das aus der Entscheidung ihres Finanzberaters resultierende Investitionsergebnis.</p>
 	<p>
-	{% formfield player.question_1 %}
+	{% formfield player.question_1 label="Die Teilnehmer in diesem Experiment sind entweder Kunden oder Finanzberater, nehmen aber nicht beide Rollen ein." %}
 	</p>
 
-
 {% endif %}
+
+<p>&nbsp;</p>
 
 
 <p><strong>Frage 2</strong></p>
 
-{% if player.question_2 == 1 %}
+{% if player.question_2 == "Falsch" %}
 
 	<p><span style="color: #ff0000;">Ihre Antwort war falsch. Bitte lesen Sie die Erklärung nochmals durch und korrigieren Sie Ihre Antwort.</span></p>
-	<p> Erklärung 2 </p>
+	<p>Finanzberater treffen die Investitionsentscheidung für ihre Kunden. Sie erhalten dazu von ihren Kunden eine Mitteilung, wie die Entscheidung getroffen werden soll. Finanzberater sind an diese Mitteilung jedoch nicht gebunden, sondern können frei entscheiden.</p>
 	<p>
-	{% formfield player.question_2 %}
+	{% formfield player.question_2 label="Finanzberater entscheiden, welcher Anteil der 10 € ihrer Kunden in die riskante Anlage investiert werden soll." %}
 	</p>
 
-{% elif player.question_2 == 0 %}
+{% elif player.question_2 == "Richtig" %}
 
 	<p><span style="color: #339966;">Ihre Antwort war richtig.</span></p>
 	<p>
-	{% formfield player.question_2 %}
+	{% formfield player.question_2 label="Finanzberater entscheiden, welcher Anteil der 10 € ihrer Kunden in die riskante Anlage investiert werden soll." %}
 	</p>
 
 {% endif %}
+
+<p>&nbsp;</p>
 
 
 <p><strong>Frage 3</strong></p>
 
-{% if player.question_3 == 1 %}
+{% if player.question_3 == "Falsch" %}
 
 	<p><span style="color: #339966;">Ihre Antwort war richtig.</span></p>
 	<p>
-	{% formfield player.question_3 %}
+	{% formfield player.question_3 label="Nachdem sie das Ergebnis erfahren haben, können Finanzberater eine Nachricht an Ihre Kunden schicken." %}
 	</p>
 
-{% elif player.question_3 == 0 %}
+{% elif player.question_3 == "Richtig" %}
 
 	<p><span style="color: #ff0000;">Ihre Antwort war falsch. Bitte lesen Sie die Erklärung nochmals durch und korrigieren Sie Ihre Antwort.</span></p>
-	<p> Erklärung 3 </p>
+	<p> Kunden können ihrem Finanzberater eine Nachricht schicken, in der sie ihre Zufriedenheit oder Unzufriedenheit mit seiner Entscheidung ausdrücken.</p>
 	<p>
-	{% formfield player.question_3 %}
+	{% formfield player.question_3 label="Nachdem sie das Ergebnis erfahren haben, können Finanzberater eine Nachricht an Ihre Kunden schicken." %}
 	</p>
 
 
 {% endif %}
+
+<p>&nbsp;</p>
 
 
 <p><strong>Frage 4</strong></p>
 
-{% if player.question_4 == 1 %}
+{% if player.question_4 != 10 %}
 
 	<p><span style="color: #ff0000;">Ihre Antwort war falsch. Bitte lesen Sie die Erklärung nochmals durch und korrigieren Sie Ihre Antwort.</span></p>
-	<p> Erklärung 4 </p>
+	<p> Wenn die Investition erfolgreich war, erhält Ihr Kunde eine Rendite von +250% auf das investierte Kapital.<br/>Das heißt, seine Rendite entspricht 4 € * 2,5 = 10 € </p>
 	<p>
-	{% formfield player.question_4 %}
+	{% formfield player.question_4 label="Bitte versetzen Sie sich in die Rolle eines Finanzberaters. Nehmen Sie an, Sie haben für Ihren Kunden 4€ in die riskante Anlage investiert und die Investition war erfolgreich. Bitte berechnen Sie die Rendite Ihres Kunden in diesem Fall." %}
 	</p>
 
-{% elif player.question_4 == 0 %}
+{% elif player.question_4 == 10 %}
 
 	<p><span style="color: #339966;">Ihre Antwort war richtig.</span></p>
 	<p>
-	{% formfield player.question_4 %}
+	{% formfield player.question_4 label="Bitte versetzen Sie sich in die Rolle eines Finanzberaters. Nehmen Sie an, Sie haben für Ihren Kunden 4€ in die riskante Anlage investiert und die Investition war erfolgreich. Bitte berechnen Sie die Rendite Ihres Kunden in diesem Fall." %}
 	</p>
 
 {% endif %}
 
+<p>&nbsp;</p>
+
 
 <p><strong>Frage 5</strong></p>
 
-{% if player.question_5 == 1 %}
+{% if player.question_5 == 6 %}
 
 	<p><span style="color: #339966;">Ihre Antwort war richtig.</span></p>
 	<p>
-	{% formfield player.question_5 %}
+	{% formfield player.question_5 label="Bitte versetzen Sie sich in die Rolle eines Finanzberaters. Nehmen Sie an, Sie haben für Ihren  Kunden 4€ in die riskante Anlage investiert und die Investition war nicht erfolgreich. Bitte berechnen Sie die Auszahlung Ihres Kunden." %}
 	</p>
 
-{% elif player.question_5 == 0 %}
+{% elif player.question_5 != 6 %}
 
 	<p><span style="color: #ff0000;">Ihre Antwort war falsch. Bitte lesen Sie die Erklärung nochmals durch und korrigieren Sie Ihre Antwort.</span></p>
-	<p> Erklärung 5 </p>
+	<p> Wenn die Investition nicht erfolgreich war, erhält Ihr Kunde eine Rendite von -100%.<br/> Das bedeutet, er verliert das Geld, das in die riskante Anlage investiert wurde. Seine Auzahlung betraägt dann 10 € - 4 € = 6 €  </p>
 	<p>
-	{% formfield player.question_5 %}
+	{% formfield player.question_5 label="Bitte versetzen Sie sich in die Rolle eines Finanzberaters. Nehmen Sie an, Sie haben für Ihren  Kunden 4€ in die riskante Anlage investiert und die Investition war nicht erfolgreich. Bitte berechnen Sie die Auszahlung Ihres Kunden." %}
 	</p>
 
 
