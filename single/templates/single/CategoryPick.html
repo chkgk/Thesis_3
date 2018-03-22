@@ -2,7 +2,7 @@
 {% load staticfiles otree %}
 
 {% block title %}
-    Begriff wählen
+    Sie sind nun ein Kunde
 {% endblock %}
 
 {% block styles %}
@@ -10,7 +10,11 @@
 {% endblock %}
 
 {% block content %}
-    <p>Zur Erinnerung:</p>
+
+    <p>Sie besitzen {{ Constants.endowment_principals }}. Als Kunde wird Ihnen ein anderer Teilnehmer in diesem Raum als Finanzberater zugeordnet. Ihr Finanzberater wird dann entscheiden, welcher Anteil x Ihrer {{ Constants.endowment_principals }} (zwischen 0 und {{ Constants.endowment_principals}}) in die zuvor beschriebene riskante Anlage investiert werden soll. Der Restbetrag {{ Constants.endowment_principals }}-x wird automatisch in die sichere Anlage investiert.</p>
+    <p>Sie haben nun als Kunde die Möglichkeit einen der fünf Begriffe zur Beschreibung des Anlageverhaltens (wie in Teil 1) auszuwählen. Der ausgewählte Begriff wird Ihrem Finanzberater mitgeteilt, bevor er die Investitionsentscheidung für Sie trifft. Ihr Finanzberater muss sich jedoch nicht zwingend an diesem Begriff orientieren. Zur Erinnerung ist Ihre Einteilung aus Teil 1 nochmals dargestellt.</p>
+    <p>&nbsp;</p>
+
     <div id="super_box">
         <div id="left_axis_label" class="axis_label">0%</div>
         <div id="right_axis_label" class="axis_label">100%</div>
@@ -38,8 +42,17 @@
         </div>
     </div>
     <p>&nbsp;</p>
-    
+
 	{% formfield player.category %}
+
+    <p>&nbsp;</p>
+
+    <p><span style="text-decoration: underline;">Ihre Auszahlung:</span></p>
+    <p>Als Kunde erhalten Sie das Ergebnis der Investitionsentscheidung Ihres Finanzberaters. Das bedeutet, Ihre Auszahlung hängt vollkommen von der Entscheidung Ihres Finanzberaters ab.</p>
+    <p>&nbsp;</p>
+
+    <p>Nachdem Sie das Ergebnis der Investitionsentscheidung erfahren haben, haben Sie die Möglichkeit, eine kurze Mitteilung an ihren Finanzberater zu senden, welche Ihre Zufriedenheit oder Unzufriedenheit mit seiner Entscheidung zum Ausdruck bringt.</p>
+    <p>&nbsp;</p>
 
     {% next_button %}
 

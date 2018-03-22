@@ -2,12 +2,64 @@
 {% load staticfiles otree %}
 
 {% block title %}
-    Finanzberater
+    Sie sind nun ein Finanzberater
 {% endblock %}
 
 {% block content %}
 
-	Ihr Kunde wollte: {{ player.category_from_principal }}
+<p>Als Finanzberater wird Ihnen ein anderer Teilnehmer in diesem Raum zufällig als Kunde zugeordnet.</p>
+
+<p>Ihr Kunde besitzt {{ Constants.endowment_principals }}. Sie werden nun entscheiden, welcher Anteil x der {{ Constants.endowment_principals }} Ihres Kunden (zwischen 0 und {{ Constants.endowment_principals }}) in die zuvor beschriebene riskante Anlage investiert werden soll. Der Restbetrag {{ Constants.endowment_principals }}-x wird automatisch in die sichere Anlage investiert.</p>
+
+<p>&nbsp;</p>
+<table style="border-color: black; margin-left: auto; margin-right: auto; width: 826px;" border="2">
+<tbody>
+<tr>
+<td style="width: 423px;">
+<p><em>Die sichere Anlage</em></p>
+</td>
+<td style="width: 432px;">
+<p><em>Die riskante Anlage</em></p>
+</td>
+</tr>
+<tr>
+<td style="width: 423px;">
+<p>&nbsp;</p>
+<p>Der Kunde erh&auml;lt eine Rendite von 0% auf das investierte Kapital.</p>
+<p>&nbsp;</p>
+</td>
+<td style="width: 432px;">
+<p>Mit einer Wahrscheinlichkeit von &nbsp;erh&auml;lt der Kunde eine Rendite von +250% auf das investierte Kapital.</p>
+<p>Mit einer Wahrscheinlichkeit von &nbsp;erh&auml;lt der Kunde eine Rendite von -100% auf das investierte Kapital.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+
+<p><span style="text-decoration: underline;">Ihre Auszahlung:</span></p>
+
+<p>
+{% if player.compensation == "fixed" %}
+
+	Als Finanzberater erhalten Sie eine feste Auszahlung von {{ Constants.fixed_payment }}. Das bedeutet, die Entscheidung, die Sie für Ihren Kunden treffen, hat keinen Einfluss auf Ihre eigene Auszahlung.
+
+{% elif player.compensation == "variable_result" %}
+
+	Als Finanzberater erhalten Sie eine feste Auszahlung von {{ Constants.fixed_payment }} und zusätzlich {{ Constants.share_result }% vom Ergebnis Ihres Kunden. Das bedeutet, die Entscheidung, die Sie für Ihren Kunden treffen, hat auch einen Einfluss auf Ihre eigene Auszahlung.
+
+{% elif player.compensation == "variable_profit" %}
+
+	Als Finanzberater erhalten Sie eine feste Auszahlung von {{ Constants.fixed_payment }} und zusätzlich {{ Constants.share_profit }}% von der Rendite Ihres Kunden. Das bedeutet, die Entscheidung, die Sie für Ihren Kunden treffen, hat auch einen Einfluss auf Ihre eigene Auszahlung.
+
+{% endif %}
+</p>
+
+<p>Nachdem Ihr Kunde das Ergebnis der Investitionsentscheidung erfahren hat, erhalten Sie eine kurze Mitteilung von ihm, welche seine Zufriedenheit oder Unzufriedenheit mit Ihrer Entscheidung zum Ausdruck bringt.</p>
+<p>&nbsp;</p>
+
+
+<p>Ihr Kunde hatte zuvor die Möglichkeit einen der fünf Begriffe auszuwählen, der seinen Investitionswunsch signalisiert. Er hat den Begriff <strong>{{ player.category_from_principal }}</strong> gewählt.</p>
 
 	{% formfield player.decision_for_principal %}
 

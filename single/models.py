@@ -17,15 +17,18 @@ class Constants(BaseConstants):
 	players_per_group = None
 	num_rounds = 1
 
+
 	category_names = ['Sehr Konservativ', 'Sicherheitsorientiert', 'Ausgeglichen', 'Wachstumsorientiert', 'Offensiv']
+
+	duration = 45
 
 	endowment_principals = c(10)
 
+
 	# Fixed Compensation
-	fixed_payment = c(10)
+	fixed_payment = c(5)
 
 	#Variable Compensation
-	variable_payment = c(5)			# Fixer Anteil für die Agenten
 	share_result = 25				# In Prozent
 	share_profit = 25
 
@@ -210,35 +213,31 @@ class Player(BasePlayer):
 			if self.compensation == "fixed":
 				self.payoff = Constants.fixed_payment
 			if self.compensation == "variable_result":
-				self.payoff = Constants.variable_payment + Constants.share_result/100 * self.payoff_of_principal
+				self.payoff = Constants.fixed_payment + Constants.share_result/100 * self.payoff_of_principal
 			if self.compensation == "variable_profit":
-				self.payoff = Constants.variable_payment + Constants.share_profit/100 * self.profit_of_principal
+				self.payoff = Constants.fixed_payment + Constants.share_profit/100 * self.profit_of_principal
 
 
 	# Comprehension Questions
-	question_1 = models.BooleanField(
-		verbose_name="Blabla1",
+	question_1 = models.CharField(
 		widget=widgets.RadioSelect(),
+		choices=["Richtig", "Falsch"]
 		)
 
-	question_2 = models.BooleanField(
-		verbose_name="Blabla2",
+	question_2 = models.CharField(
 		widget=widgets.RadioSelect(),
+		choices=["Richtig", "Falsch"]
 		)
 
-	question_3 = models.BooleanField(
-		verbose_name="Blabla3",
+	question_3 = models.CharField(
 		widget=widgets.RadioSelect(),
+		choices=["Richtig", "Falsch"]
 		)
 
-	question_4 = models.BooleanField(
-		verbose_name="Blabla4",
-		widget=widgets.RadioSelect(),
+	question_4 = models.CurrencyField(
 		)
 
-	question_5 = models.BooleanField(
-		verbose_name="Blabla5",
-		widget=widgets.RadioSelect(),
+	question_5 = models.CurrencyField(
 		)
 
 
