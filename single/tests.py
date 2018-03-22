@@ -132,13 +132,12 @@ class PlayerBot(Bot):
 		yield (pages.CategoryPick, {'category': choice(Constants.category_names)})
 		
 		# agents' decision
-		yield (pages.Agent, {'decision_for_principal': 5.0})
+		yield (pages.Agent, {'decision_for_p1': 7.5})
 
 		# principal's results
 		if self.player.role() == "Principal":
 			yield (pages.Results_Principals, {'message': 'Ich bin sehr zufrieden mit Ihrer Entscheidung'})
 
-		# yield (pages.Hilfe4)
 
 		if self.player.role() == "Agent":
 			yield (pages.Results_Agents)
