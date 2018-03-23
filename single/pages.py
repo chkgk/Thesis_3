@@ -114,10 +114,10 @@ class Last_Page(Page):
 page_sequence = [
 	Welcome,
 	Instructions1,
-	CategoryElicitation,
+#	CategoryElicitation,
 	Instructions2,
-	Control_1,
-	Control_2,
+#	Control_1,
+#	Control_2,
 	CategoryPick,
 	CategoryWaitPage,
 	Agent,
