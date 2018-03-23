@@ -82,7 +82,7 @@ body {
     /*clear: both;*/
 /*                position: absolute;
 */                /*top: 50px;*/
-    width: 1000px;
+    width: 1002px;
     height: 100%;
     border-left: 1px dashed #aaa;
     border-right: 1px dashed #aaa;
@@ -124,7 +124,7 @@ body {
 #left_axis_label {
     left: 0px;
     /*background-color: #ff0;*/
-    float:left;
+    float: left;
     text-align: right;
 }
 
@@ -139,7 +139,7 @@ body {
     height: 0px;
     border: 1px dashed #aaa;
     top: 50%;
-    width: 997px;
+    width: 998px;
     position: absolute;
     z-index: 1;
     margin-top: 0;

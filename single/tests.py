@@ -13,20 +13,48 @@ class PlayerBot(Bot):
 	def play_round(self):
 		# data definition
 		test_data = {
+			'Category_Elicitation': {
+				'invalid_inputs': {
+					'cat_end_abs_1': 'a',
+					'cat_end_abs_2': '2000',
+					'cat_end_abs_3': '',
+					'cat_end_abs_4': 'a',
+					'cat_end_abs_5': 5.4,
+
+					'cat_end_rel_1': -1,
+					'cat_end_rel_2': -1,
+					'cat_end_rel_3': -1,
+					'cat_end_rel_4': -1,
+					'cat_end_rel_5': -1,
+				},
+				'valid_inputs': {
+					'cat_end_abs_1': 200,
+					'cat_end_abs_2': 400,
+					'cat_end_abs_3': 600,
+					'cat_end_abs_4': 800,
+					'cat_end_abs_5': 1000,
+
+					'cat_end_rel_1': 0.2,
+					'cat_end_rel_2': 0.4,
+					'cat_end_rel_3': 0.6,
+					'cat_end_rel_4': 0.8,
+					'cat_end_rel_5': 1.0,
+				}
+			},
 			'Comprehension_1': {
 				'invalid_inputs': {
-					"question_1": ['a', ''], 
+					"question_1": ['a', 5], 
 					"question_2": ['a', ''], 
 					"question_3": ['a', ''], 
 					"question_4": ['a', ''], 
 					"question_5": ['a', '']
 				},
 				'valid_inputs': {
-					"question_1": True, 
-					"question_2": True, 
-					"question_3": True, 
-					"question_4": True, 
-					"question_5": True
+					"question_1": "Falsch", 
+					"question_2": "Richtig", 
+					"question_3": "Falsch", 
+					"question_4": 10, 
+					"question_5": 6
 				},
 			},
 			'Comprehension_2': {
@@ -38,11 +66,11 @@ class PlayerBot(Bot):
 					"question_5": ['a', '', True]
 				},
 				'valid_inputs': {
-					"question_1": True, 
-					"question_2": False, 
-					"question_3": True, 
-					"question_4": False, 
-					"question_5": True
+					"question_1": "Falsch", 
+					"question_2": "Richtig", 
+					"question_3": "Falsch", 
+					"question_4": 10, 
+					"question_5": 6
 				},
 			},
 			'Questionnaire': {
@@ -69,10 +97,14 @@ class PlayerBot(Bot):
 		excessive = False
 
 
-		# instructions
-		# yield (pages.Welcome)
-		# yield (pages.Instructions1)
-		# yield (pages.Instructions2)
+		# instructions 1
+		yield (pages.Welcome)
+		yield (pages.Instructions1)
+
+		yield (pages.CategoryElicitation, test_data['Category_Elicitation']['valid_inputs'])
+
+		# instructions 2
+		yield (pages.Instructions2)
 
 		# Comprehension Questions 1
 		# fail
@@ -100,13 +132,12 @@ class PlayerBot(Bot):
 		yield (pages.CategoryPick, {'category': choice(Constants.category_names)})
 		
 		# agents' decision
-		yield (pages.Agent, {'decision_for_principal': 5.0})
+		yield (pages.Agent, {'decision_for_p1': 7.5})
 
 		# principal's results
 		if self.player.role() == "Principal":
 			yield (pages.Results_Principals, {'message': 'Ich bin sehr zufrieden mit Ihrer Entscheidung'})
 
-		# yield (pages.Hilfe4)
 
 		if self.player.role() == "Agent":
 			yield (pages.Results_Agents)

@@ -48,6 +48,15 @@ class CategoryPick(Page):
 	form_model = "player"
 	form_fields = ["category"]
 
+	def vars_for_template(self):
+		return {
+			'width_a': self.player.cat_end_abs_1,
+			'width_b': self.player.cat_end_abs_2 - self.player.cat_end_abs_1,
+			'width_c': self.player.cat_end_abs_3 - self.player.cat_end_abs_2,
+			'width_d': self.player.cat_end_abs_4 - self.player.cat_end_abs_3,
+			'width_e': self.player.cat_end_abs_5 - self.player.cat_end_abs_4,
+		}
+
 
 class CategoryWaitPage(WaitPage):
 	wait_for_all_groups = True
@@ -63,10 +72,18 @@ class CategoryWaitPage(WaitPage):
 
 class Agent(Page):
 	form_model = "player"
-	form_fields = ["decision_for_principal"]
+	form_fields = ["decision_for_p1"]
 
+	def vars_for_template(self):
+		return {
+			'width_a': self.player.cat_end_abs_1,
+			'width_b': self.player.cat_end_abs_2 - self.player.cat_end_abs_1,
+			'width_c': self.player.cat_end_abs_3 - self.player.cat_end_abs_2,
+			'width_d': self.player.cat_end_abs_4 - self.player.cat_end_abs_3,
+			'width_e': self.player.cat_end_abs_5 - self.player.cat_end_abs_4,
+		}
 
-class WaitPage1(WaitPage):
+class WaitForAgents(WaitPage):
 	def after_all_players_arrive(self):
 		self.group.after_investments()
 
@@ -121,7 +138,7 @@ page_sequence = [
 	CategoryPick,
 	CategoryWaitPage,
 	Agent,
-	WaitPage1,
+	WaitForAgents,
 	Results_Principals,
 	WaitForPrincipals,
 	Results_Agents,

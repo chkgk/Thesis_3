@@ -45,15 +45,9 @@ function Category(id, otree_field_rel_id, otree_field_abs_id, order) {
 
     this.update_otree_field = function () {
         $('#'+this.otree_field_rel_id).val(this.cm.fraction_range(this)['high']);
-        $('#'+this.otree_field_abs_id).val(this.cm.absolute_range(this)['high']);
+        $('#'+this.otree_field_abs_id).val(Math.round(this.cm.absolute_range(this)['high']));
 
-        if (this.order == 5) {
-            if (this.cm.fraction_range(this)['high'] == 1.0) {
-                $('.otree-btn-next').show();
-            } else {
-                $('.otree-btn-next').hide();
-            }
-        }
+        this.check_next_button();
     }
 
     this.draggable_on = function () {
@@ -82,6 +76,18 @@ function Category(id, otree_field_rel_id, otree_field_abs_id, order) {
     this.set_width = function (width) {
         this.width = width;
         this.container_element.width(this.width);
+        this.check_next_button();
+
+    }
+
+    this.check_next_button = function () {
+        if (this.order == 5) {
+            if (this.cm.fraction_range(this)['high'] == 1.0) {
+                $('.otree-btn-next').show();
+            } else {
+                $('.otree-btn-next').hide();
+            }
+        }
     }
 
     this.handle_left = function () {
@@ -182,10 +188,10 @@ function CategoryManager(list_of_elements, axis_id) {
             var remaining_space = this.axis.width() - occupied_space - target.width;
 
             if (remaining_space < 0) {
-                var new_width = target.width + remaining_space - (4-this.dropped.length)*target.label_min_size;
-                // console.log(new_width);
+                var new_width = target.width + remaining_space - (6-this.dropped.length)*target.label_min_size;
                 target.set_width(new_width);
             }
+
         }
 
         // if (target.right_fixed) {
@@ -231,7 +237,12 @@ function CategoryManager(list_of_elements, axis_id) {
             var remaining_space = this.axis.width() - occupied_space - target.start_width;
             // console.log(remaining_space);
 
-            var target_max_width = target.start_width - (5 - this.dropped.length)*target.label_min_size + remaining_space;
+            var drop_multi = 6;
+            if (target.order == 5) {
+                drop_multi -= 1;
+            }
+
+            var target_max_width = target.start_width - (drop_multi - this.dropped.length)*target.label_min_size + remaining_space;
             target.set_max_width(target_max_width);
         }
 

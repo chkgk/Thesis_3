@@ -30,7 +30,7 @@ class Constants(BaseConstants):
 
 	#Variable Compensation
 	share_result = 25				# In Prozent
-	share_profit = 25
+	share_profit = 35
 
 class Subsession(BaseSubsession):
 
@@ -145,7 +145,7 @@ class Player(BasePlayer):
 
 # Everyone takes the investment decision for their principal:
 
-	decision_for_principal = models.CurrencyField(
+	decision_for_p1 = models.CurrencyField(
 		min=0,
 		max=Constants.endowment_principals,
 		widget=widgets.Slider(),					# Neuer Slider von Christian
@@ -159,7 +159,7 @@ class Player(BasePlayer):
 
 	def get_investment(self):
 		agent = self.get_others_in_group()[0]
-		self.investment = agent.decision_for_principal
+		self.investment = agent.decision_for_p1
 
 
 # principals can send messages to their agents:
@@ -288,4 +288,4 @@ class Player(BasePlayer):
 	cat_end_abs_2 = models.IntegerField()
 	cat_end_abs_3 = models.IntegerField()
 	cat_end_abs_4 = models.IntegerField()
-	cat_end_abs_5 = models.FloatField()
+	cat_end_abs_5 = models.IntegerField()
