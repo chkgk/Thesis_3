@@ -1,0 +1,73 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static "shared/jquery-ui.min.css" %}">
+    <link rel="stylesheet" href="{% static "shared/category.css" %}">
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "shared/jquery-ui.min.js" %}"></script>
+    <script src="{% static "shared/category.js" %}"></script>
+{% endblock %}
+
+{% block title %}
+    Begriff wählen
+{% endblock %}
+
+{% block content %}
+
+    <div id="super_box">
+        <div id="left_axis_label" class="axis_label">0%</div>
+        <div id="right_axis_label" class="axis_label">100%</div>
+        <div id="axis_box">
+            <hr id='axis_line'> 
+            <div id="axis">
+
+            </div>
+        </div>
+        
+    </div>
+
+    <p>Ziehen Sie die Boxen auf die Achse und passen Sie die Größen an.</p>
+
+    <div id="category_box">
+        <div class="category_label" id="a">
+            <div class="label">sehr konservativ</div>
+            <div class="category_label_handle handle_right"></div>
+        </div>
+        <div class="category_label" id="b">
+            <div class="label">sicherheitsorientiert</div>
+            <div class="category_label_handle handle_right"></div>
+        </div>
+        <div class="category_label" id="c">
+            <div class="label">ausgeglichten</div>
+            <div class="category_label_handle handle_right"></div>
+        </div>
+        <div class="category_label" id="d">
+            <div class="label">wachstumsorientiert</div>
+            <div class="category_label_handle handle_right"></div>
+        </div>
+        <div class="category_label" id="e">
+            <div class="label">offensiv</div>
+            <div class="category_label_handle handle_right"></div>
+        </div>
+    </div>
+
+    <p>&nbsp;</p>
+
+    <input type="hidden" name="cat_end_rel_1" id="id_cat_end_rel_1">
+    <input type="hidden" name="cat_end_rel_2" id="id_cat_end_rel_2">
+    <input type="hidden" name="cat_end_rel_3" id="id_cat_end_rel_3">
+    <input type="hidden" name="cat_end_rel_4" id="id_cat_end_rel_4">
+    <input type="hidden" name="cat_end_rel_5" id="id_cat_end_rel_5">
+
+    <input type="hidden" name="cat_end_abs_1" id="id_cat_end_abs_1">
+    <input type="hidden" name="cat_end_abs_2" id="id_cat_end_abs_2">
+    <input type="hidden" name="cat_end_abs_3" id="id_cat_end_abs_3">
+    <input type="hidden" name="cat_end_abs_4" id="id_cat_end_abs_4">
+    <input type="hidden" name="cat_end_abs_5" id="id_cat_end_abs_5">
+
+    {% next_button %}
+
+{% endblock %}

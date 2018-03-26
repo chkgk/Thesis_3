@@ -2,34 +2,38 @@
 {% load staticfiles otree %}
 
 {% block title %}
-    Page title
+    Verständnisfragen
 {% endblock %}
 
 {% block content %}
 
 <p><strong>Frage 1</strong></p>
 <p>
-{% formfield player.question_1 %}
+{% formfield player.question_1 label="Die Teilnehmer in diesem Experiment sind entweder Kunden oder Finanzberater, nehmen aber nicht beide Rollen ein." %}
 </p>
+<p>&nbsp;</p>
 
 <p><strong>Frage 2</strong></p>
 <p>
-{% formfield player.question_2 %}
+{% formfield player.question_2 label="Finanzberater entscheiden, welcher Anteil der 10 € ihrer Kunden in die riskante Anlage investiert werden soll." %}
 </p>
+<p>&nbsp;</p>
 
 <p><strong>Frage 3</strong></p>
 <p>
-{% formfield player.question_3 %}
+{% formfield player.question_3 label="Nachdem sie das Ergebnis erfahren haben, können Finanzberater eine Nachricht an Ihre Kunden schicken. " %}
 </p>
+<p>&nbsp;</p>
 
 <p><strong>Frage 4</strong></p>
 <p>
-{% formfield player.question_4 %}
+{% formfield player.question_4  label="Bitte versetzen Sie sich in die Rolle eines Finanzberaters. Nehmen Sie an, Sie haben für Ihren Kunden 4€ in die riskante Anlage investiert und die Investition war erfolgreich. Bitte berechnen Sie die Rendite Ihres Kunden in diesem Fall." %}
 </p>
+<p>&nbsp;</p>
 
 <p><strong>Frage 5</strong></p>
 <p>
-{% formfield player.question_5 %}
+{% formfield player.question_5  label="Bitte versetzen Sie sich in die Rolle eines Finanzberaters. Nehmen Sie an, Sie haben für Ihren Kunden 4€ in die riskante Anlage investiert und die Investition war nicht erfolgreich. Bitte berechnen Sie die Auszahlung Ihres Kunden." %}
 </p>
 
 
