@@ -70,7 +70,7 @@ body {
 
 .category_label:hover > .resize_handle{
     /*cursor: move;*/
-    background-color: #f00;
+    background-color: orange;
 }
 
 .draggablelabel:hover {
