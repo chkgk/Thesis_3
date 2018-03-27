@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+<<<<<<< HEAD
 <p>
 	Der Computer hat Ihnen folgende Rolle zugewiesen: <strong>Kunde</strong>
 </p>
@@ -39,6 +40,40 @@ Sie haben nun die Möglichkeit, eine kurze Mitteilung an ihren Finanzberater zu 
 {% formfield player.message %}
 
     {% next_button %}
+=======
+	<p>
+		Der Computer hat Ihnen folgende Rolle zugewiesen: <strong>Kunde</strong>
+	</p>
+	<p>
+		Sie haben den Begriff <em>{{ player.category }}</em> an Ihren Finanzberater kommuniziert.
+	</p>
+	<p>
+		Ihr Finanzberater hat entschieden, {{ player.investment }} in die riskante Anlage zu investieren.
+	</p>
+	<p>
+	{% if group.investment_success %}
+
+		Die Investition war erfolgreich.
+
+	{% else %}
+
+		Die Investition war nicht erfolgreich.
+
+	{% endif %}
+	</p>
+
+	<p>
+		Ihre Auszahlung aus Teil 2 beträgt daher <strong>{{ player.payoff }}</strong>.
+	</p>
+
+	<p>
+	Sie haben nun die Möglichkeit, eine kurze Mitteilung an ihren Finanzberater zu senden, welche Ihre Zufriedenheit oder Unzufriedenheit mit seiner Entscheidung zum Ausdruck bringt. Wählen Sie dazu eine der vorgefertigten Mitteilungen aus.
+	</p>
+	<p>
+	{% formfield player.message %}
+
+    <div align="right">{% next_button %}</div>
+>>>>>>> bf228d0b3670a66764fd4248c8f9dcb20a4238a0
 {% endblock %}
 
 

@@ -35,7 +35,7 @@
             var names = {
                 'a': "sehr konservativ",
                 'b': "sicherheitsorientiert",
-                'c': "ausgeglichten",
+                'c': "ausgeglichen",
                 'd': "wachstumsorientiert",
                 'e': "offensiv",
             }
@@ -63,7 +63,7 @@
                 <div class="category_label_handle handle_right"></div>
             </div>
             <div class="category_label" id="c" style="width: {{ width_c }}px; margin-right: 0px;">
-                <div class="label">ausgeglichten</div>
+                <div class="label">ausgeglichen</div>
                 <div class="category_label_handle handle_right"></div>
             </div>
             <div class="category_label" id="d" style="width: {{ width_d }}px; margin-right: 0px;">
@@ -80,6 +80,6 @@
 
     <input type="hidden" id="id_category" name="category"/>
 
-    {% next_button %}
+    <div align="right">{% next_button %}</div>
 
 {% endblock %}
