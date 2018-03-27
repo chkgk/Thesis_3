@@ -2,18 +2,53 @@
 {% load staticfiles otree %}
 
 {% block title %}
-    Sie sind nun ein Kunde
+    Sie treffen nun die Entscheidung als Kunde
 {% endblock %}
 
 {% block styles %}
     <link rel="stylesheet" href="{% static "shared/category.css" %}">
+    <style type="text/css">
+        .category_label:hover {
+/*          border: 2px dashed orange; */
+            color: orange;
+        }
+
+        .label {
+            cursor: pointer !important;
+        }
+
+        .sel {
+            /*border: 2px solid red;*/
+            color: orange;
+        }
+    </style>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $('.otree-btn-next').hide();
+        $('.category_label').on('click', function (event) {
+            // console.log(event);
+            $('.category_label').removeClass('sel');
+            $(event.delegateTarget).addClass('sel');
+
+            var names = {
+                'a': "sehr konservativ",
+                'b': "sicherheitsorientiert",
+                'c': "ausgeglichten",
+                'd': "wachstumsorientiert",
+                'e': "offensiv",
+            }
+
+            $('#id_category').val(names[event.currentTarget.id]);
+            $('.otree-btn-next').show();
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
 
-    <p>Sie besitzen {{ Constants.endowment_principals }}. Als Kunde wird Ihnen ein anderer Teilnehmer in diesem Raum als Finanzberater zugeordnet. Ihr Finanzberater wird dann entscheiden, welcher Anteil x Ihrer {{ Constants.endowment_principals }} (zwischen 0 und {{ Constants.endowment_principals}}) in die zuvor beschriebene riskante Anlage investiert werden soll. Der Restbetrag {{ Constants.endowment_principals }}-x wird automatisch in die sichere Anlage investiert.</p>
-    <p>Sie haben nun als Kunde die Möglichkeit einen der fünf Begriffe zur Beschreibung des Anlageverhaltens (wie in Teil 1) auszuwählen. Der ausgewählte Begriff wird Ihrem Finanzberater mitgeteilt, bevor er die Investitionsentscheidung für Sie trifft. Ihr Finanzberater muss sich jedoch nicht zwingend an diesem Begriff orientieren. Zur Erinnerung ist Ihre Einteilung aus Teil 1 nochmals dargestellt.</p>
-    <p>&nbsp;</p>
+    <p>Bitte wählen Sie die Anlagestrategien aus, die Ihr späterer Berater für Sie umsetzen soll.</p><p>Klicken Sie dazu direkt auf die Strategie. Orange Schrift markiert Ihre Auswahl. Zur Erinnerung ist Ihre Einteilung aus Teil 1 nochmals dargestellt. Ihr Berater erfährt nur die ausgewählte Strategie. Er erfährt Ihre Einteilung nicht.</p>
 
     <div id="super_box">
         <div id="left_axis_label" class="axis_label">0%</div>
@@ -43,16 +78,7 @@
     </div>
     <p>&nbsp;</p>
 
-	{% formfield player.category %}
-
-    <p>&nbsp;</p>
-
-    <p><span style="text-decoration: underline;">Ihre Auszahlung:</span></p>
-    <p>Als Kunde erhalten Sie das Ergebnis der Investitionsentscheidung Ihres Finanzberaters. Das bedeutet, Ihre Auszahlung hängt vollkommen von der Entscheidung Ihres Finanzberaters ab.</p>
-    <p>&nbsp;</p>
-
-    <p>Nachdem Sie das Ergebnis der Investitionsentscheidung erfahren haben, haben Sie die Möglichkeit, eine kurze Mitteilung an ihren Finanzberater zu senden, welche Ihre Zufriedenheit oder Unzufriedenheit mit seiner Entscheidung zum Ausdruck bringt.</p>
-    <p>&nbsp;</p>
+    <input type="hidden" id="id_category" name="category"/>
 
     {% next_button %}
 

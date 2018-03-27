@@ -22,26 +22,34 @@ class CategoryElicitation(Page):
 		'cat_end_abs_5',
 	]
 
+
 class Instructions1(Page):
-	pass
+	form_model = "player"
+	form_fields = ["question_2", "question_3"]
 
 
 class Instructions2(Page):
-	pass
-
-
-class Control_1(Page):
 	form_model = "player"
-	form_fields = ["question_1", "question_2", "question_3", "question_4", "question_5"]
+	form_fields = ["question_4", "question_5"]
 
 
-class Control_2(Page):
+class Instructions3(Page):
 	form_model = "player"
-	form_fields = ["question_1", "question_2", "question_3", "question_4", "question_5"]
+	form_fields = ["question_1", "question_6"]
 
-	def error_message(self, values):
-		if values["question_1"] == "Richtig" or values["question_2"] == "Falsch" or values["question_3"] == "Richtig" or values["question_4"] != 10 or values["question_5"] != 6:
-			return "Bitte korrigieren Sie falsch beantwortete Fragen."
+
+# class Control_1(Page):
+# 	form_model = "player"
+# 	form_fields = ["question_1", "question_2", "question_3", "question_4", "question_5"]
+
+
+# class Control_2(Page):
+# 	form_model = "player"
+# 	form_fields = ["question_1", "question_2", "question_3", "question_4", "question_5"]
+
+# 	def error_message(self, values):
+# 		if values["question_1"] == "Richtig" or values["question_2"] == "Falsch" or values["question_3"] == "Richtig" or values["question_4"] != 10 or values["question_5"] != 6:
+# 			return "Bitte korrigieren Sie falsch beantwortete Fragen."
 
 
 class CategoryPick(Page):
@@ -129,12 +137,13 @@ class Last_Page(Page):
 
 
 page_sequence = [
-	Welcome,
-	Instructions1,
+	# Welcome,
 	CategoryElicitation,
-	Instructions2,
-	Control_1,
-	Control_2,
+	# Instructions1,
+	# Instructions2,
+	# Instructions3,
+	#Control_1,
+	#Control_2,
 	CategoryPick,
 	CategoryWaitPage,
 	Agent,

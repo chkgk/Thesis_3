@@ -2,7 +2,7 @@
 {% load staticfiles otree %}
 
 {% block title %}
-    Sie sind nun ein Finanzberater
+    Sie treffen nun die Entscheidung als Finanzberater
 {% endblock %}
 
 {% block styles %}
@@ -127,9 +127,7 @@
 
 {% block content %}
 
-    <p>Als Finanzberater wird Ihnen ein anderer Teilnehmer in diesem Raum zufällig als Kunde zugeordnet.</p>
-
-    <p>Ihr Kunde besitzt {{ Constants.endowment_principals }}. Sie werden nun entscheiden, welcher Anteil x der {{ Constants.endowment_principals }} Ihres Kunden (zwischen 0 und {{ Constants.endowment_principals }}) in die zuvor beschriebene riskante Anlage investiert werden soll. Der Restbetrag {{ Constants.endowment_principals }}-x wird automatisch in die sichere Anlage investiert.</p>
+    <p>Sie können das Vermögen Ihres Kunden frei auf die folgenden beiden Anlagemöglichkeiten verteilen:</p>
 
     <table style="border-color: black; margin-left: auto; margin-right: auto; width: 826px;" border="2">
         <tbody>
@@ -155,9 +153,7 @@
         </tbody>
     </table>
     <p>&nbsp;</p>
-
-    <p><span style="text-decoration: underline;">Ihre Auszahlung:</span></p>
-
+    <p><b>Ihre Auszahlung:</b></p>
     <p>
     {% if player.compensation == "fixed" %}
 
@@ -174,38 +170,7 @@
     {% endif %}
     </p>
 
-    <p>Nachdem Ihr Kunde das Ergebnis der Investitionsentscheidung erfahren hat, erhalten Sie eine kurze Mitteilung von ihm, welche seine Zufriedenheit oder Unzufriedenheit mit Ihrer Entscheidung zum Ausdruck bringt.</p>
-
-    <p>Ihr Kunde hatte zuvor die Möglichkeit einen der fünf Begriffe auszuwählen, der seinen Investitionswunsch signalisiert. Er hat den Begriff <strong>{{ player.category_from_principal }}</strong> gewählt.</p>
-
-    <p>Zur Erinnerung: Sie haben die Begriffe wie folgt verteilt:</p>
-    <div id="super_box">
-        <div id="left_axis_label" class="axis_label">0%</div>
-        <div id="right_axis_label" class="axis_label">100%</div>
-        <div id="axis_box">
-            <div class="category_label" id="a" style="width: {{ width_a }}px; margin-right: 0px;">
-                <div class="label">sehr konservativ</div>
-                <div class="category_label_handle handle_right"></div>
-            </div>
-            <div class="category_label" id="b" style="width: {{ width_b }}px; margin-right: 0px;">
-                <div class="label">sicherheitsorientiert</div>
-                <div class="category_label_handle handle_right"></div>
-            </div>
-            <div class="category_label" id="c" style="width: {{ width_c }}px; margin-right: 0px;">
-                <div class="label">ausgeglichten</div>
-                <div class="category_label_handle handle_right"></div>
-            </div>
-            <div class="category_label" id="d" style="width: {{ width_d }}px; margin-right: 0px;">
-                <div class="label">wachstumsorientiert</div>
-                <div class="category_label_handle handle_right"></div>
-            </div>
-            <div class="category_label" id="e" style="width: {{ width_e }}px; margin-right: 0px;">
-                <div class="label">offensiv</div>
-                <div class="category_label_handle handle_right"></div>
-            </div>
-        </div>
-    </div>
-    <p>&nbsp;</p>
+    <p>Die Tabelle zeigt den Anlagewunsch jedes Ihrer Kunden. Durch bewegen des jeweiligen Sliders können Sie die Aufteilung des Vermögens zwischen der sicheren und der riskanten Anlage für jeden Kunden individuell auswählen. Daneben sehen Sie die möglichen Auszahlungen an den Kunden und Ihre eigene Beratervergütung.</p>
 
     <table width="100%">
         <tr>
@@ -237,6 +202,34 @@
             <td id="pay_win_1">0.00€</td>
         </tr>
     </table>
+    <p>&nbsp;</p>
+    <p>Zur Erinnerung: Sie haben die Anlagestrategien wie folgt verteilt:</p>
+    <div id="super_box">
+        <div id="left_axis_label" class="axis_label">0%</div>
+        <div id="right_axis_label" class="axis_label">100%</div>
+        <div id="axis_box">
+            <div class="category_label" id="a" style="width: {{ width_a }}px; margin-right: 0px;">
+                <div class="label">sehr konservativ</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="b" style="width: {{ width_b }}px; margin-right: 0px;">
+                <div class="label">sicherheitsorientiert</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="c" style="width: {{ width_c }}px; margin-right: 0px;">
+                <div class="label">ausgeglichten</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="d" style="width: {{ width_d }}px; margin-right: 0px;">
+                <div class="label">wachstumsorientiert</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="e" style="width: {{ width_e }}px; margin-right: 0px;">
+                <div class="label">offensiv</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+        </div>
+    </div>
 
     <p>&nbsp; </p>
     {% next_button %}

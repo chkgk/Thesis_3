@@ -18,7 +18,7 @@ class Constants(BaseConstants):
 	num_rounds = 1
 
 
-	category_names = ['Sehr Konservativ', 'Sicherheitsorientiert', 'Ausgeglichen', 'Wachstumsorientiert', 'Offensiv']
+	category_names = ['sehr konservativ', 'sicherheitsorientiert', 'ausgeglichen', 'wachstumsorientiert', 'offensiv']
 
 	duration = 45
 
@@ -128,8 +128,7 @@ class Player(BasePlayer):
 
 	category = models.CharField(
 		choices=Constants.category_names,
-		widget=widgets.RadioSelect(),
-		verbose_name="Bitte wählen Sie nun einen der fünf Begriffe:",
+		verbose_name="ein Berater soll mein Vermögen wie folgt für mich anlegen:",
 		doc="Principals choose the category which is communicated to their agent"
 		)
 
@@ -238,6 +237,9 @@ class Player(BasePlayer):
 		)
 
 	question_5 = models.CurrencyField(
+		)
+
+	question_6 = models.CharField(widget=widgets.RadioSelect(), choices=["Richtig", "Falsch"]
 		)
 
 
