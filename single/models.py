@@ -92,9 +92,7 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
-	investment_success = models.BooleanField(
-		doc="Turns true if the investment was successful and 0 in case it was not."
-	)
+	investment_success = models.BooleanField(doc="Turns true if the investment was successful and 0 in case it was not.")
 	
 	def after_investments(self):
 		self.investment_success = (random.random() <= 1/3)
@@ -110,21 +108,13 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 	
-	my_group_id = models.PositiveIntegerField(
-		doc="Gives each player his group ID (see subsession)"
-		)
+	my_group_id = models.PositiveIntegerField(doc="Gives each player his group ID (see subsession)")
 
-	random_number = models.IntegerField(
-		doc="Turns either 1 or 2 (see subsession) and is used to randomly assign roles in the experiment (see def role)."
-		)
+	random_number = models.IntegerField(doc="Turns either 1 or 2 (see subsession) and is used to randomly assign roles in the experiment (see def role).")
 
-	compensation = models.CharField(
-		doc="Compensation scheme put in place for agents (see Settings)."
-		)
+	compensation = models.CharField(doc="Compensation scheme put in place for agents (see Settings).")
 
-	participation_fee = models.CurrencyField(
-		doc="Participation fee for all agents (can be modified in Settings)."
-		)
+	participation_fee = models.CurrencyField(doc="Participation fee for all agents (can be modified in Settings).")
 
 	def role(self):
 		return "Principal" if self.id_in_group == self.random_number else "Agent"
@@ -134,13 +124,11 @@ class Player(BasePlayer):
 	category = models.CharField(
 		choices=Constants.category_names,
 		verbose_name="ein Berater soll mein Vermögen wie folgt für mich anlegen:",
-		doc="Principals choose the category which is communicated to their agent"
-		)
+		doc="Principals choose the category which is communicated to their agent")
 
 
 	category_from_principal = models.CharField(
-		doc="Category that agents receive from their principals indicating how they want their agent to invest."
-		)
+		doc="Category that agents receive from their principals indicating how they want their agent to invest.")
 
 
 	def get_category(self):
@@ -154,12 +142,9 @@ class Player(BasePlayer):
 		max=Constants.endowment_principals,
 		widget=widgets.Slider(),					# Neuer Slider von Christian
 		verbose_name="Ihre Investitionsentscheidung für Ihren Kunden:",
-		doc="Agents investment for the principal in the risky asset."
-		)
+		doc="Agents investment for the principal in the risky asset.")
 
-	investment = models.CurrencyField(
-		doc="Indicates for everyone the investment decision as taken by their agents."
-		)
+	investment = models.CurrencyField(doc="Indicates for everyone the investment decision as taken by their agents.")
 
 	def get_investment(self):
 		agent = self.get_others_in_group()[0]
@@ -173,12 +158,9 @@ class Player(BasePlayer):
 		"Ich bin unzufrieden mit Ihrer Entscheidung", "Ich bin sehr unzufrieden mit Ihrer Entscheidung"],
 		widget=widgets.RadioSelect(),
 		verbose_name="Wählen Sie dazu eine der vorgefertigten Mitteilungen aus:",
-		doc="Principals choose the message to send to the agents."
-		)
+		doc="Principals choose the message to send to the agents.")
 
-	message_from_principal = models.CharField(
-		doc="Message that agents receive from their principals."
-		)
+	message_from_principal = models.CharField(doc="Message that agents receive from their principals.")
 
 
 # Payoffs:
@@ -191,18 +173,12 @@ class Player(BasePlayer):
 				self.payoff = Constants.endowment_principals - self.investment
 				self.profit = 0
 
-	profit = models.CurrencyField(
-		doc="Gives the profit of the principal."
-		)
+	profit = models.CurrencyField(doc="Gives the profit of the principal.")
 
-	payoff_of_principal = models.CurrencyField(
-		doc="Gives for each agent the payoff of his principal."
-		)
+	payoff_of_principal = models.CurrencyField(doc="Gives for each agent the payoff of his principal.")
 
 
-	profit_of_principal = models.CurrencyField(
-		doc="Gives for each agent the payoff of his principal."
-		)
+	profit_of_principal = models.CurrencyField(doc="Gives for each agent the payoff of his principal.")
 
 
 	def get_msg_payoff_profit(self):
@@ -224,49 +200,40 @@ class Player(BasePlayer):
 
 	# Comprehension Questions
 	question_1 = models.CharField(
-		widget=widgets.RadioSelect(),
-		choices=["Richtig", "Falsch"]
-		)
+		widget=widgets.RadioSelectHorizontal(),
+		choices=["Richtig", "Falsch"])
 
 	question_2 = models.CharField(
-		widget=widgets.RadioSelect(),
-		choices=["Richtig", "Falsch"]
-		)
+		widget=widgets.RadioSelectHorizontal(),
+		choices=["Richtig", "Falsch"])
 
-	question_3 = models.CharField(
-		widget=widgets.RadioSelect(),
-		choices=["Richtig", "Falsch"]
-		)
+	question_3 = models.CurrencyField()
 
-	question_4 = models.CurrencyField(
-		)
+	question_4 = models.CurrencyField()
 
-	question_5 = models.CurrencyField(
-		)
+	question_5 = models.CharField(
+		widget=widgets.RadioSelectHorizontal(),
+		choices=["Richtig", "Falsch"])
 
-	question_6 = models.CharField(widget=widgets.RadioSelect(), choices=["Richtig", "Falsch"]
-		)
+	question_6 = models.CharField(widget=widgets.RadioSelectHorizontal(), choices=["Richtig", "Falsch"])
 
 
 	# Questionnaire:
 	age = models.PositiveIntegerField(
 		max=100,
 		verbose_name="Wie alt sind Sie?",
-		doc="We ask participants for their age between 0 and 100 years"
-		)
+		doc="We ask participants for their age between 0 and 100 years")
 
 	gender = models.CharField(
 		choices=["männlich", "weiblich", "anderes"],
-		widget=widgets.RadioSelect(),
+		widget=widgets.RadioSelectHorizontal(),
 		verbose_name="Was ist Ihr Geschlecht?",
-		doc="gender indication"
-		)
+		doc="gender indication")
 
 	studies = models.CharField(
 		blank=True,
 		verbose_name="Was studieren Sie im Hauptfach?",
-		doc="field of studies indication."
-		)
+		doc="field of studies indication.")
 
 	nonstudent = models.BooleanField(
 		widget=widgets.CheckboxInput(),
@@ -275,7 +242,7 @@ class Player(BasePlayer):
 
 	financial_advice = models.BooleanField(
 		choices=[(True, "Ja"),(False, "Nein")],
-		widget=widgets.RadioSelect(),
+		widget=widgets.RadioSelectHorizontal(),
 		verbose_name="Haben Sie bereits eine Bankberatung in Anspruch genommen?",
 		doc="We ask participants if they ever made use of financial advice.")
 
@@ -286,41 +253,31 @@ class Player(BasePlayer):
 	# fields for risk elicitation
 
 	cat_end_rel_1 = models.FloatField(
-		doc="Indicates the end point of the first category in relative size."
-		)
+		doc="Indicates the end point of the first category in relative size.")
 
 	cat_end_rel_2 = models.FloatField(
-		doc="Indicates the end point of the second category in relative size."
-		)
+		doc="Indicates the end point of the second category in relative size.")
 
 	cat_end_rel_3 = models.FloatField(
-		doc="Indicates the end point of the third category in relative size."
-		)
+		doc="Indicates the end point of the third category in relative size.")
 
 	cat_end_rel_4 = models.FloatField(
-		doc="Indicates the end point of the fourth category in relative size."
-		)
+		doc="Indicates the end point of the fourth category in relative size.")
 
 	cat_end_rel_5 = models.FloatField(
-		doc="Indicates the end point of the fifth category in relative size."
-		)
+		doc="Indicates the end point of the fifth category in relative size.")
 
 	cat_end_abs_1 = models.PositiveIntegerField(
-		doc="Indicates the end point of the first category in pixels."
-		)
+		doc="Indicates the end point of the first category in pixels.")
 
 	cat_end_abs_2 = models.PositiveIntegerField(
-		doc="Indicates the end point of the second category in pixels."
-		)
+		doc="Indicates the end point of the second category in pixels.")
 
 	cat_end_abs_3 = models.PositiveIntegerField(
-		doc="Indicates the end point of the third category in pixels."
-		)
+		doc="Indicates the end point of the third category in pixels.")
 
 	cat_end_abs_4 = models.PositiveIntegerField(
-		doc="Indicates the end point of the fourth category in pixels."
-		)
+		doc="Indicates the end point of the fourth category in pixels.")
 
 	cat_end_abs_5 = models.PositiveIntegerField(
-		doc="Indicates the end point of the fifth category in pixels."
-		)
+		doc="Indicates the end point of the fifth category in pixels.")

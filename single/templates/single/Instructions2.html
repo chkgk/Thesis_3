@@ -5,6 +5,14 @@
     Teil 2 - Instruktionen (2/3)
 {% endblock %}
 
+{% block styles%}
+    <style type="text/css">
+        .controls label {
+            margin-right: 10px;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
 
     <p><strong>Anlagemöglichkeiten</strong><p>
@@ -18,9 +26,9 @@
     <p>Zusätzlich erhält der Kunde immer den nicht investierten Teil seines Vermögens sicher.</p>
 
     <p><strong>Kontrollfragen</strong></p>
-    {% formfield player.question_4  label="Nehmen Sie an, für einen Kunden wurden 4€ in die riskante Anlage investiert und die Investition war erfolgreich.  <br/>Welche Auszahlung erhält der Kunde?" %}
+    {% formfield player.question_3  label="Nehmen Sie an, für einen Kunden wurden 4€ in die riskante Anlage investiert und die Investition war erfolgreich.  <br/>Welche Auszahlung erhält der Kunde?" %}
 
-    {% formfield player.question_5  label="Nehmen Sie an, für einen Kunden wurden 6€ in die riskante Anlage investiert und die Investition war nicht erfolgreich. <br/>Welche Auszahlung erhält der Kunde?" %}
+    {% formfield player.question_4  label="Nehmen Sie an, für einen Kunden wurden 6€ in die riskante Anlage investiert und die Investition war nicht erfolgreich. <br/>Welche Auszahlung erhält der Kunde?" %}
 
     <div align="right">{% next_button %}</div>
 

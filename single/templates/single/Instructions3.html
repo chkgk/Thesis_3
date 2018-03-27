@@ -5,6 +5,14 @@
     Teil 2 - Instruktionen (3/3)
 {% endblock %}
 
+{% block styles%}
+    <style type="text/css">
+        .controls label {
+            margin-right: 10px;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
     <p><strong>Ablauf</strong></p>
     <p>In diesem Experiment werden zunächst alle Teilnehmer beide Rollen annehmen: Die Rolle des Kunden und die Rolle des Finanzberaters. 
@@ -13,9 +21,9 @@
     <p>Der Computer wählt dann zufällig einen Teil der Teilnehmer aus, deren Beratungsentscheidung auszahlungsrelevant wird. Das heißt, die ausgewählten Teilnehmer erhalten die Auszahlung für ihre Entscheidung als Finanzberater. Die anderen, nicht ausgewählten Teilnehmer erhalten die Auszahlung für Ihre Rolle als Kunde und bekommen entsprechend das aus der Entscheidung ihres Finanzberaters resultierende Investitionsergebnis.</p>
 
     <p><strong>Kontrollfragen</strong></p>
-    {% formfield player.question_1 label="Die Teilnehmer in diesem Experiment sind entweder Kunden oder Finanzberater, nehmen aber nicht beide Rollen ein." %}
+    {% formfield player.question_5 label="Die Teilnehmer in diesem Experiment sind entweder Kunden oder Finanzberater, nehmen aber nicht beide Rollen ein." %}
     
-    {% formfield player.question_6 label="Ein einzuger Zufallszug bestimmt für alle Teilnehmer des Experiments darüber, ob die riskante Anlage erfolgreich oder nicht erfolgreich ist." %}
+    {% formfield player.question_6 label="Ein einziger Zufallszug bestimmt für alle Teilnehmer des Experiments darüber, ob die riskante Anlage erfolgreich oder nicht erfolgreich ist." %}
 
     <div align="right">{% next_button %}</div>
 

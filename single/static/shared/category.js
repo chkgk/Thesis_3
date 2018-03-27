@@ -195,6 +195,8 @@ function CategoryManager(list_of_elements, axis_id) {
 
         }
 
+        target.update_otree_field();
+
         // if (target.right_fixed) {
         //     // it has already snapped left, now resize
         //     var remaining_space = this.axis.width() - occupied_space;
@@ -222,6 +224,8 @@ function CategoryManager(list_of_elements, axis_id) {
                 var occupied_space = this.left_sum(successor.order);
                 var new_pos = "left+"+occupied_space + " top";
                 successor.set_pos(new_pos);
+
+                //successor.update_otree_field();
             }                       
         }
     }

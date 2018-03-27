@@ -25,31 +25,40 @@ class CategoryElicitation(Page):
 
 class Instructions1(Page):
 	form_model = "player"
-	form_fields = ["question_2", "question_3"]
+	form_fields = ["question_1", "question_2"]
 
+	def question_1_error_message(self, value):
+		if value == "Falsch":
+			return "Bitte lesen Sie die Instruktionen erneut genau durch und korrigieren Sie Ihre Antwort."
+
+	def question_2_error_message(self, value):
+		if value == "Richtig":
+			return "Bitte lesen Sie die Instruktionen erneut genau durch und korrigieren Sie Ihre Antwort."
 
 class Instructions2(Page):
 	form_model = "player"
-	form_fields = ["question_4", "question_5"]
+	form_fields = ["question_3", "question_4"]
+
+	def question_3_error_message(self, value):
+		if value != 20:
+			return "Bitte lesen Sie die Instruktionen erneut genau durch und korrigieren Sie Ihre Antwort."
+
+	def question_4_error_message(self, value):
+		if value != 4:
+			return "Bitte lesen Sie die Instruktionen erneut genau durch und korrigieren Sie Ihre Antwort."
 
 
 class Instructions3(Page):
 	form_model = "player"
-	form_fields = ["question_1", "question_6"]
+	form_fields = ["question_5", "question_6"]
 
+	def question_5_error_message(self, value):
+		if value == "Richtig":
+			return "Bitte lesen Sie die Instruktionen erneut genau durch und korrigieren Sie Ihre Antwort."
 
-# class Control_1(Page):
-# 	form_model = "player"
-# 	form_fields = ["question_1", "question_2", "question_3", "question_4", "question_5"]
-
-
-# class Control_2(Page):
-# 	form_model = "player"
-# 	form_fields = ["question_1", "question_2", "question_3", "question_4", "question_5"]
-
-# 	def error_message(self, values):
-# 		if values["question_1"] == "Richtig" or values["question_2"] == "Falsch" or values["question_3"] == "Richtig" or values["question_4"] != 10 or values["question_5"] != 6:
-# 			return "Bitte korrigieren Sie falsch beantwortete Fragen."
+	def question_6_error_message(self, value):
+		if value == "Richtig":
+			return "Bitte lesen Sie die Instruktionen erneut genau durch und korrigieren Sie Ihre Antwort."
 
 
 class CategoryPick(Page):
