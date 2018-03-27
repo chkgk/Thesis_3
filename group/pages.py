@@ -3,6 +3,31 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 
 
+class Welcome(Page):
+	pass
+
+class CategoryElicitation(Page):
+	form_model = "player"
+	form_fields = [
+		'cat_end_rel_1', 
+		'cat_end_rel_2', 
+		'cat_end_rel_3',
+		'cat_end_rel_4',
+		'cat_end_rel_5',
+
+		'cat_end_abs_1', 
+		'cat_end_abs_2', 
+		'cat_end_abs_3',
+		'cat_end_abs_4',
+		'cat_end_abs_5',
+	]
+
+class Instructions1(Page):
+	pass
+
+class Instructions2(Page):
+	pass
+
 class Control_1(Page):
 	
 	form_model = "player"
@@ -15,32 +40,35 @@ class Control_2(Page):
 	form_fields = ["question_1", "question_2", "question_3", "question_4", "question_5"]
 
 	def error_message(self, values):
-		if values["question_1"] == 0 or values["question_2"] == 1 or values["question_3"] == 0 or values["question_4"] == 1 or values["question_5"] == 0:
+		if values["question_1"] == "Richtig" or values["question_2"] == "Falsch" or values["question_3"] == "Richtig" or values["question_4"] != 10 or values["question_5"] != 6:
 			return "Bitte korrigieren Sie falsch beantwortete Fragen."
 
 
-class MyPage(Page):
-	
+
+class CategoryPick(Page):
 	form_model = "player"
 	form_fields = ["category"]
 
+	# def vars_for_template(self):
+	# 	return {
+	# 		'width_a': self.player.cat_end_abs_1,
+	# 		'width_b': self.player.cat_end_abs_2 - self.player.cat_end_abs_1,
+	# 		'width_c': self.player.cat_end_abs_3 - self.player.cat_end_abs_2,
+	# 		'width_d': self.player.cat_end_abs_4 - self.player.cat_end_abs_3,
+	# 		'width_e': self.player.cat_end_abs_5 - self.player.cat_end_abs_4,
+	# 	}
 
-class ResultsWaitPage(WaitPage):
 
+class CategoryWaitPage(WaitPage):
 	wait_for_all_groups = True
+
 	def after_all_players_arrive(self):
 		self.subsession.set_groups()
-
-
-class Hilfe(Page):
-
-	##################### Christian: Ich weiß nicht wie ich das ohne eine Hilsseite machen soll ###################################
-
-	def before_next_page(self):
-		self.player.determine_roles()
-		self.player.find_principals()
-		self.player.find_partners()
-		self.player.get_category()
+		# weil wait_for_all_groups gesetzt ist, wird die Funktion nur einmal aufgerufen,
+		# folglich muss ich dann noch eine Ebene über die Gruppe hinaus auf die Subsession
+		# in der aufgerufenen Funktion auf der Subsession-Ebene wird dann durch alle Gruppen gegangen
+		# und da dann jeweils durch jeden Spieler um die Category zu kommunizieren.
+		self.subsession.communicate_categories()
 
 
 class Agent(Page):
@@ -57,69 +85,50 @@ class Agent(Page):
 	def before_next_page(self):
 		self.player.determine_outcome()
 
-class WaitPage1(WaitPage):
+
+class WaitForAgents(WaitPage):
 
 	def after_all_players_arrive(self):
-		pass
-
-class Hilfe2(Page):
-
-	##################### Christian: Ich weiß nicht wie ich das ohne eine Hilsseite machen soll ###################################
-
-	def before_next_page(self):
-		self.player.get_investment()
-		self.player.calculate_payoffs_principals()
-		self.player.get_outcome_of_principal()
+		self.group.after_investments()
 
 
 class Results_Principal(Page):
 
 	def is_displayed(self):
-		return self.player.roles == "Principal"
+		return self.player.role() == "Principal"
 
 	form_model = "player"
 	form_fields = ["message"]
 
 
-class WaitPage2(WaitPage):
-
+class WaitForPrincipals(WaitPage):
 	def after_all_players_arrive(self):
-		pass
-
-
-class Hilfe3(Page):
-
-	def before_next_page(self):
-		self.player.get_invested_amount()
-		self.player.get_message()
-		self.player.get_payoff_of_principal()
-		self.player.get_profit_of_principal()
-		self.player.calculate_payoffs_agents()
+		self.group.after_results_principals()
 
 
 class Results_Agent(Page):
 
 	def is_displayed(self):
-		return self.player.roles == "Agent"
+		return self.player.role() == "Agent"
 
 
 class Questionnaire(Page):
 
 	form_model = "player"
-	form_fields = ["age", "gender", "studies", "studies2", "financial_advice", "income"]
+	form_fields = ["age", "gender", "studies", "nonstudent", "financial_advice", "income"]
 
+	# This works now, but is not in compliance with the oTree manual.. I guess we found a bug.
 	# returns an error message if a participant...
 	def error_message(self, values):
 		# ... indicates field of studies and ticks the box "non-student".
-		if "studies" in values:
-			if values["studies2"] == 1:
-				return "You stated a field of studies, but indicated that you are a non-student."
+		if values["studies"]:
+			if values["nonstudent"]:
+				return "Bitte geben Sie entweder ein Studienfach an oder wählen Sie \"Kein Student\""
 		# ... states no field of studies and and does not tick the box.
 		else:
 		#elif "studies" not in values:
-			if values["studies2"] == 0:
-				return "Are you a non-student?"
-
+			if not values["nonstudent"]:
+				return "Sie haben kein Studienfach angegeben. Wenn Sie kein Student sind, treffen Sie bitte eine entsprechende Auswahl."
 
 class Last_Page(Page):
 
@@ -127,18 +136,19 @@ class Last_Page(Page):
 
 
 page_sequence = [
-#	Control_1,
-#	Control_2,
-	MyPage,
-	ResultsWaitPage,
-	Hilfe,
+	Welcome,
+	Instructions1,
+#	CategoryElicitation,
+	Instructions2,
+	Control_1,
+	Control_2,
+	CategoryPick,
+	CategoryWaitPage,
 	Agent,
-	WaitPage1,
-	Hilfe2,
+	WaitForAgents,
 	Results_Principal,
-	WaitPage2,
-	Hilfe3,
+	WaitForPrincipals,
 	Results_Agent,
-#	Questionnaire,
+	Questionnaire,
 	Last_Page
 ]

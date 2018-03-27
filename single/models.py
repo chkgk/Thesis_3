@@ -110,15 +110,20 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 	
-	my_group_id = models.IntegerField()
-	random_number = models.IntegerField()
+	my_group_id = models.PositiveIntegerField(
+		doc="Gives each player his group ID (see subsession)"
+		)
+
+	random_number = models.IntegerField(
+		doc="Turns either 1 or 2 (see subsession) and is used to randomly assign roles in the experiment (see def role)."
+		)
 
 	compensation = models.CharField(
 		doc="Compensation scheme put in place for agents (see Settings)."
 		)
 
 	participation_fee = models.CurrencyField(
-		doc="Participation fee for all agents."
+		doc="Participation fee for all agents (can be modified in Settings)."
 		)
 
 	def role(self):
@@ -280,14 +285,42 @@ class Player(BasePlayer):
 
 	# fields for risk elicitation
 
-	cat_end_rel_1 = models.FloatField()
-	cat_end_rel_2 = models.FloatField()
-	cat_end_rel_3 = models.FloatField()
-	cat_end_rel_4 = models.FloatField()
-	cat_end_rel_5 = models.FloatField()
+	cat_end_rel_1 = models.FloatField(
+		doc="Indicates the end point of the first category in relative size."
+		)
 
-	cat_end_abs_1 = models.IntegerField()
-	cat_end_abs_2 = models.IntegerField()
-	cat_end_abs_3 = models.IntegerField()
-	cat_end_abs_4 = models.IntegerField()
-	cat_end_abs_5 = models.IntegerField()
+	cat_end_rel_2 = models.FloatField(
+		doc="Indicates the end point of the second category in relative size."
+		)
+
+	cat_end_rel_3 = models.FloatField(
+		doc="Indicates the end point of the third category in relative size."
+		)
+
+	cat_end_rel_4 = models.FloatField(
+		doc="Indicates the end point of the fourth category in relative size."
+		)
+
+	cat_end_rel_5 = models.FloatField(
+		doc="Indicates the end point of the fifth category in relative size."
+		)
+
+	cat_end_abs_1 = models.PositiveIntegerField(
+		doc="Indicates the end point of the first category in pixels."
+		)
+
+	cat_end_abs_2 = models.PositiveIntegerField(
+		doc="Indicates the end point of the second category in pixels."
+		)
+
+	cat_end_abs_3 = models.PositiveIntegerField(
+		doc="Indicates the end point of the third category in pixels."
+		)
+
+	cat_end_abs_4 = models.PositiveIntegerField(
+		doc="Indicates the end point of the fourth category in pixels."
+		)
+
+	cat_end_abs_5 = models.PositiveIntegerField(
+		doc="Indicates the end point of the fifth category in pixels."
+		)

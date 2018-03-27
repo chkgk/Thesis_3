@@ -1,0 +1,59 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Sie sind nun ein Kunde
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static "shared/category.css" %}">
+{% endblock %}
+
+{% block content %}
+
+    <p>Sie besitzen {{ Constants.endowment_principals }}. Als Kunde wird Ihnen ein anderer Teilnehmer in diesem Raum als Finanzberater zugeordnet. Ihr Finanzberater wird dann entscheiden, welcher Anteil x Ihrer {{ Constants.endowment_principals }} (zwischen 0 und {{ Constants.endowment_principals}}) in die zuvor beschriebene riskante Anlage investiert werden soll. Der Restbetrag {{ Constants.endowment_principals }}-x wird automatisch in die sichere Anlage investiert.</p>
+    <p>Sie haben nun als Kunde die Möglichkeit einen der fünf Begriffe zur Beschreibung des Anlageverhaltens (wie in Teil 1) auszuwählen. Der ausgewählte Begriff wird Ihrem Finanzberater mitgeteilt, bevor er die Investitionsentscheidung für Sie trifft. Ihr Finanzberater muss sich jedoch nicht zwingend an diesem Begriff orientieren. Zur Erinnerung ist Ihre Einteilung aus Teil 1 nochmals dargestellt.</p>
+    <p>&nbsp;</p>
+
+    <div id="super_box">
+        <div id="left_axis_label" class="axis_label">0%</div>
+        <div id="right_axis_label" class="axis_label">100%</div>
+        <div id="axis_box">
+            <div class="category_label" id="a" style="width: {{ width_a }}px; margin-right: 0px;">
+                <div class="label">sehr konservativ</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="b" style="width: {{ width_b }}px; margin-right: 0px;">
+                <div class="label">sicherheitsorientiert</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="c" style="width: {{ width_c }}px; margin-right: 0px;">
+                <div class="label">ausgeglichten</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="d" style="width: {{ width_d }}px; margin-right: 0px;">
+                <div class="label">wachstumsorientiert</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="e" style="width: {{ width_e }}px; margin-right: 0px;">
+                <div class="label">offensiv</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+        </div>
+    </div>
+    <p>&nbsp;</p>
+
+	{% formfield player.category %}
+
+    <p>&nbsp;</p>
+
+    <p><span style="text-decoration: underline;">Ihre Auszahlung:</span></p>
+    <p>Als Kunde erhalten Sie das Ergebnis der Investitionsentscheidung Ihres Finanzberaters. Das bedeutet, Ihre Auszahlung hängt vollkommen von der Entscheidung Ihres Finanzberaters ab.</p>
+    <p>&nbsp;</p>
+
+    <p>Nachdem Sie das Ergebnis der Investitionsentscheidung erfahren haben, haben Sie die Möglichkeit, eine kurze Mitteilung an ihren Finanzberater zu senden, welche Ihre Zufriedenheit oder Unzufriedenheit mit seiner Entscheidung zum Ausdruck bringt.</p>
+    <p>&nbsp;</p>
+
+    {% next_button %}
+
+{% endblock %}

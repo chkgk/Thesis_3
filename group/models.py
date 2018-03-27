@@ -88,8 +88,29 @@ class Subsession(BaseSubsession):
 				player.my_group_id = group_matrix.index(group) + 1
 
 
+	def communicate_categories(self):
+		for group in self.get_groups():
+			for player in group.get_players():
+				player.find_principals()
+				player.find_partners()
+				player.get_category()
+
+
 class Group(BaseGroup):
-	pass
+	
+	def after_investments(self):
+		#self.investment_success = (random.random() <= 1/3)
+		for player in self.get_players():
+			player.get_investment()
+			player.calculate_payoffs_principals()
+			player.get_outcome_of_principal()
+
+
+	def after_results_principals(self):
+		for player in self.get_players():
+			player.get_invested_amount()
+			player.get_msg_payoff_profit()
+			player.calculate_payoffs_agents()
 
 
 class Player(BasePlayer):
@@ -106,15 +127,11 @@ class Player(BasePlayer):
 		doc="Participation fee for all agents."
 		)
 
-	roles = models.CharField()
-	# Mit der normalen role Funktion klappt es nicht, dass ich die Results Seiten auf die Rolle bedinge.
+
 
 	# Gerade Nummern sind Prinzipale und ungerade Agenten
-	def determine_roles(self):
-		if self.id_in_group % 2 == 0:
-			self.roles = "Principal"
-		elif self.id_in_group % 2 != 0:
-			self.roles = "Agent"
+	def role(self):
+		return "Principal" if self.id_in_group % 2 == 0 else "Agent"
 
 
 # Assign partners (i.e. build principal agent couples: 1-2, 3-4, 5-6)
@@ -154,7 +171,7 @@ class Player(BasePlayer):
 
 
 	def get_category(self):
-		if self.roles == "Agent":
+		if self.role() == "Agent":
 			principal = self.get_others_in_group()[int(self.partner)-2]
 			self.category_from_principal = principal.category
 
@@ -266,13 +283,6 @@ class Player(BasePlayer):
 		doc="Message that agents receive from their principals."
 		)
 
-	def get_message(self):
-		if self.roles == "Agent":
-			principal = self.get_others_in_group()[int(self.partner)-2]
-			self.message_from_principal = principal.message
-
-	
-
 
 # Payoffs:
 
@@ -281,7 +291,7 @@ class Player(BasePlayer):
 		)
 
 	def get_investment(self):
-		if self.roles == "Principal":
+		if self.role() == "Principal":
 			agent = self.get_others_in_group()[int(self.partner)-1]
 			if self.id_in_group == 2:
 				self.investment = agent.decision_for_p1
@@ -297,7 +307,7 @@ class Player(BasePlayer):
 		doc="For agents, this gives us the investment in the risky option for their relevant principal (agents own decision).")
 
 	def get_invested_amount(self):
-		if self.roles == "Agent":
+		if self.role() == "Agent":
 			principal = self.get_others_in_group()[int(self.partner)-2]
 			self.invested_amount = principal.investment
 
@@ -307,7 +317,7 @@ class Player(BasePlayer):
 	# Investition in risky asset: Erfolgreich oder nicht erfolgreich:
 	def determine_outcome(self):
 		randomizer = random.randint(1,3)
-		if self.roles == "Principal":
+		if self.role() == "Principal":
 			if randomizer == 1:
 				self.investment_outcome = 1
 			else:
@@ -325,14 +335,14 @@ class Player(BasePlayer):
 		)
 
 	def get_outcome_of_principal(self):
-		if self.roles == "Agent":
+		if self.role() == "Agent":
 			principal = self.get_others_in_group()[int(self.partner)-2]
 			self.outcome_of_principal = principal.investment_outcome
 
 
 
 	def calculate_payoffs_principals(self):
-		if self.roles == "Principal":
+		if self.role() == "Principal":
 			if self.investment_outcome == 1:
 				self.payoff = self.investment * 3.5 + (Constants.endowment_principals - self.investment)
 				self.profit = self.investment * 2.5
@@ -349,24 +359,21 @@ class Player(BasePlayer):
 		doc="Gives for each agent the payoff of his principal."
 		)
 
-	def get_payoff_of_principal(self):
-		if self.roles == "Agent":
-			principal = self.get_others_in_group()[int(self.partner)-2]
-			self.payoff_of_principal = principal.payoff
-
-
 	profit_of_principal = models.CurrencyField(
 		doc="Gives for each agent the payoff of his principal."
 		)
 
-	def get_profit_of_principal(self):
-		if self.roles == "Agent":
+
+	def get_msg_payoff_profit(self):
+		if self.role() == "Agent":
 			principal = self.get_others_in_group()[int(self.partner)-2]
 			self.profit_of_principal = principal.profit
+			self.payoff_of_principal = principal.payoff
+			self.message_from_principal = principal.message
 
 
 	def calculate_payoffs_agents(self):
-		if self.roles == "Agent":
+		if self.role() == "Agent":
 			if self.compensation == "fixed":
 				self.payoff = Constants.fixed_payment
 			if self.compensation == "variable_result":
@@ -378,38 +385,31 @@ class Player(BasePlayer):
 
 	# Control Questions
 
-	question_1 = models.BooleanField(
-		verbose_name="Blabla1",
+	question_1 = models.CharField(
 		widget=widgets.RadioSelect(),
+		choices=["Richtig", "Falsch"]
 		)
 
-	question_2 = models.BooleanField(
-		verbose_name="Blabla2",
+	question_2 = models.CharField(
 		widget=widgets.RadioSelect(),
+		choices=["Richtig", "Falsch"]
 		)
 
-	question_3 = models.BooleanField(
-		verbose_name="Blabla3",
+	question_3 = models.CharField(
 		widget=widgets.RadioSelect(),
+		choices=["Richtig", "Falsch"]
 		)
 
-	question_4 = models.BooleanField(
-		verbose_name="Blabla4",
-		widget=widgets.RadioSelect(),
+	question_4 = models.CurrencyField(
 		)
 
-	question_5 = models.BooleanField(
-		verbose_name="Blabla5",
-		widget=widgets.RadioSelect(),
+	question_5 = models.CurrencyField(
 		)
-
-
 
 
 
 
 	# Questionnaire:
-
 	age = models.PositiveIntegerField(
 		max=100,
 		verbose_name="Wie alt sind Sie?",
@@ -429,13 +429,13 @@ class Player(BasePlayer):
 		doc="field of studies indication."
 		)
 
-	studies2 = models.BooleanField(
+	nonstudent = models.BooleanField(
 		widget=widgets.CheckboxInput(),
 		verbose_name="Kein Student",
 		doc="Ticking the checkbox means that the participant is a non-student.")
 
-	financial_advice = models.CharField(
-		choices=["Ja", "Nein"],
+	financial_advice = models.BooleanField(
+		choices=[(True, "Ja"),(False, "Nein")],
 		widget=widgets.RadioSelect(),
 		verbose_name="Haben Sie bereits eine Bankberatung in Anspruch genommen?",
 		doc="We ask participants if they ever made use of financial advice.")
