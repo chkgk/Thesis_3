@@ -136,10 +136,33 @@ class PlayerBot(Bot):
 
 		# principal's results
 		if self.player.role() == "Principal":
+			assert self.player.investment == 7.5
+			if self.group.investment_success == 0:
+				assert self.player.payoff == 2.5
+			else:
+				assert self.player.payoff == 28.75
 			yield (pages.Results_Principals, {'message': 'Ich bin sehr zufrieden mit Ihrer Entscheidung'})
 
 
-		if self.player.role() == "Agent":
+		# agents' results
+		if self.player.role() == "Agent": 
+			assert self.player.message_from_principal == "Ich bin sehr zufrieden mit Ihrer Entscheidung"
+			if self.group.investment_success == 0:
+				assert self.player.payoff_of_principal == 2.5
+				assert self.player.profit_of_principal == 0
+				if self.player.compensation == "variable_result":
+					assert self.player.payoff == 5.625
+				else:
+					assert self.player.payoff == Constants.fixed_payment
+			else:
+				assert self.player.payoff_of_principal == 28.75
+				assert self.player.profit_of_principal == 18.75
+				if self.player.compensation == "fixed":
+					assert self.player.payoff == Constants.fixed_payment
+				elif self.player.compensation == "variable_result":
+					assert self.player.payoff == 12.1875
+				elif self.player.compensation == "variable_profit":
+					assert self.player.payoff == 11.5625
 			yield (pages.Results_Agents)
 
 		# questionnaire
@@ -173,7 +196,19 @@ class PlayerBot(Bot):
 		yield (pages.Questionnaire, test_data['Questionnaire']['valid_inputs'])
 
 		# last page!
+		if self.player.role() == "Agent":
+			if self.group.investment_success == 0:
+				if self.player.compensation == "variable_result":
+					assert self.player.payoff + self.player.participation_fee == 7.625
+				else:
+					assert self.player.payoff + self.player.participation_fee == 7
+		if self.player.role() == "Principal":
+			if self.group.investment_success == 0:
+				assert self.player.payoff + self.player.participation_fee == 4.5
+			else:
+				assert self.player.payoff + self.player.participation_fee == 30.75
 		yield (pages.Last_Page)
+
 
 
 # Control_1,
