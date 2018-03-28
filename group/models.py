@@ -17,7 +17,7 @@ class Constants(BaseConstants):
 	players_per_group = None
 	num_rounds = 1
 
-	category_names = ['Sehr Konservativ', 'Sicherheitsorientiert', 'Ausgeglichen', 'Wachstumsorientiert', 'Offensiv']
+	category_names = ['sehr konservativ', 'sicherheitsorientiert', 'ausgeglichen', 'wachstumsorientiert', 'offensiv']
 
 	endowment_principals = c(10)
 
@@ -383,28 +383,25 @@ class Player(BasePlayer):
 
 
 
-	# Control Questions
-
+	# Comprehension Questions
 	question_1 = models.CharField(
-		widget=widgets.RadioSelect(),
-		choices=["Richtig", "Falsch"]
-		)
+		widget=widgets.RadioSelectHorizontal(),
+		choices=["Richtig", "Falsch"])
 
 	question_2 = models.CharField(
-		widget=widgets.RadioSelect(),
-		choices=["Richtig", "Falsch"]
-		)
+		widget=widgets.RadioSelectHorizontal(),
+		choices=["Richtig", "Falsch"])
 
-	question_3 = models.CharField(
-		widget=widgets.RadioSelect(),
-		choices=["Richtig", "Falsch"]
-		)
+	question_3 = models.CurrencyField()
 
-	question_4 = models.CurrencyField(
-		)
+	question_4 = models.CurrencyField()
 
-	question_5 = models.CurrencyField(
-		)
+	question_5 = models.CharField(
+		widget=widgets.RadioSelectHorizontal(),
+		choices=["Richtig", "Falsch"])
+
+	question_6 = models.CharField(widget=widgets.RadioSelectHorizontal(), choices=["Richtig", "Falsch"])
+
 
 
 
@@ -443,3 +440,35 @@ class Player(BasePlayer):
 	income = models.CurrencyField(
 		verbose_name="Wie viel Geld im Monat steht Ihnen frei zur Verfügung?",
 		doc="We ask participants how much money they have freely available each month.")
+
+	# fields for risk elicitation
+
+	cat_end_rel_1 = models.FloatField(
+		doc="Indicates the end point of the first category in relative size.")
+
+	cat_end_rel_2 = models.FloatField(
+		doc="Indicates the end point of the second category in relative size.")
+
+	cat_end_rel_3 = models.FloatField(
+		doc="Indicates the end point of the third category in relative size.")
+
+	cat_end_rel_4 = models.FloatField(
+		doc="Indicates the end point of the fourth category in relative size.")
+
+	cat_end_rel_5 = models.FloatField(
+		doc="Indicates the end point of the fifth category in relative size.")
+
+	cat_end_abs_1 = models.PositiveIntegerField(
+		doc="Indicates the end point of the first category in pixels.")
+
+	cat_end_abs_2 = models.PositiveIntegerField(
+		doc="Indicates the end point of the second category in pixels.")
+
+	cat_end_abs_3 = models.PositiveIntegerField(
+		doc="Indicates the end point of the third category in pixels.")
+
+	cat_end_abs_4 = models.PositiveIntegerField(
+		doc="Indicates the end point of the fourth category in pixels.")
+
+	cat_end_abs_5 = models.PositiveIntegerField(
+		doc="Indicates the end point of the fifth category in pixels.")

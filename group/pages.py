@@ -22,26 +22,43 @@ class CategoryElicitation(Page):
 		'cat_end_abs_5',
 	]
 
+
 class Instructions1(Page):
-	pass
+	form_model = "player"
+	form_fields = ["question_1", "question_2"]
+
+	def question_1_error_message(self, value):
+		if value == "Falsch":
+			return "Bitte lesen Sie die Instruktionen erneut genau durch und korrigieren Sie Ihre Antwort."
+
+	def question_2_error_message(self, value):
+		if value == "Richtig":
+			return "Bitte lesen Sie die Instruktionen erneut genau durch und korrigieren Sie Ihre Antwort."
 
 class Instructions2(Page):
-	pass
-
-class Control_1(Page):
-	
 	form_model = "player"
-	form_fields = ["question_1", "question_2", "question_3", "question_4", "question_5"]
+	form_fields = ["question_3", "question_4"]
+
+	def question_3_error_message(self, value):
+		if value != 20:
+			return "Bitte lesen Sie die Instruktionen erneut genau durch und korrigieren Sie Ihre Antwort."
+
+	def question_4_error_message(self, value):
+		if value != 4:
+			return "Bitte lesen Sie die Instruktionen erneut genau durch und korrigieren Sie Ihre Antwort."
 
 
-class Control_2(Page):
-	
+class Instructions3(Page):
 	form_model = "player"
-	form_fields = ["question_1", "question_2", "question_3", "question_4", "question_5"]
+	form_fields = ["question_5", "question_6"]
 
-	def error_message(self, values):
-		if values["question_1"] == "Richtig" or values["question_2"] == "Falsch" or values["question_3"] == "Richtig" or values["question_4"] != 10 or values["question_5"] != 6:
-			return "Bitte korrigieren Sie falsch beantwortete Fragen."
+	def question_5_error_message(self, value):
+		if value == "Richtig":
+			return "Bitte lesen Sie die Instruktionen erneut genau durch und korrigieren Sie Ihre Antwort."
+
+	def question_6_error_message(self, value):
+		if value == "Richtig":
+			return "Bitte lesen Sie die Instruktionen erneut genau durch und korrigieren Sie Ihre Antwort."
 
 
 
@@ -49,14 +66,14 @@ class CategoryPick(Page):
 	form_model = "player"
 	form_fields = ["category"]
 
-	# def vars_for_template(self):
-	# 	return {
-	# 		'width_a': self.player.cat_end_abs_1,
-	# 		'width_b': self.player.cat_end_abs_2 - self.player.cat_end_abs_1,
-	# 		'width_c': self.player.cat_end_abs_3 - self.player.cat_end_abs_2,
-	# 		'width_d': self.player.cat_end_abs_4 - self.player.cat_end_abs_3,
-	# 		'width_e': self.player.cat_end_abs_5 - self.player.cat_end_abs_4,
-	# 	}
+	def vars_for_template(self):
+		return {
+			'width_a': self.player.cat_end_abs_1,
+			'width_b': self.player.cat_end_abs_2 - self.player.cat_end_abs_1,
+			'width_c': self.player.cat_end_abs_3 - self.player.cat_end_abs_2,
+			'width_d': self.player.cat_end_abs_4 - self.player.cat_end_abs_3,
+			'width_e': self.player.cat_end_abs_5 - self.player.cat_end_abs_4,
+		}
 
 
 class CategoryWaitPage(WaitPage):
@@ -72,16 +89,26 @@ class CategoryWaitPage(WaitPage):
 
 
 class Agent(Page):
+	form_model = "player"
+	form_fields = ["decision_for_p1", "decision_for_p2", "decision_for_p3", "decision_for_p4","decision_for_p5"]
 
 	def vars_for_template(self):
 		group = self.group.get_players()
 
-		return {'p1_category': group[int(self.player.c_principal_1)-1].category , 'p2_category': group[int(self.player.c_principal_2)-1].category, 'p3_category': group[int(self.player.c_principal_3)-1].category, 'p4_category': group[int(self.player.c_principal_4)-1].category, 'p5_category': group[int(self.player.c_principal_5)-1].category}
+		return {
+			'p1_category': group[int(self.player.c_principal_1)-1].category, 
+			'p2_category': group[int(self.player.c_principal_2)-1].category, 
+			'p3_category': group[int(self.player.c_principal_3)-1].category, 
+			'p4_category': group[int(self.player.c_principal_4)-1].category, 
+			'p5_category': group[int(self.player.c_principal_5)-1].category,
+
+			'width_a': self.player.cat_end_abs_1,
+			'width_b': self.player.cat_end_abs_2 - self.player.cat_end_abs_1,
+			'width_c': self.player.cat_end_abs_3 - self.player.cat_end_abs_2,
+			'width_d': self.player.cat_end_abs_4 - self.player.cat_end_abs_3,
+			'width_e': self.player.cat_end_abs_5 - self.player.cat_end_abs_4,
+		}
 	
-
-	form_model = "player"
-	form_fields = ["decision_for_p1", "decision_for_p2", "decision_for_p3", "decision_for_p4","decision_for_p5"]
-
 	def before_next_page(self):
 		self.player.determine_outcome()
 
@@ -136,19 +163,18 @@ class Last_Page(Page):
 
 
 page_sequence = [
-	Welcome,
-	Instructions1,
-#	CategoryElicitation,
-	Instructions2,
-	Control_1,
-	Control_2,
+	# Welcome,
+	CategoryElicitation,
+	# Instructions1,
+	# Instructions2,
+	# Instructions3,
 	CategoryPick,
 	CategoryWaitPage,
 	Agent,
-	WaitForAgents,
-	Results_Principal,
-	WaitForPrincipals,
-	Results_Agent,
-	Questionnaire,
-	Last_Page
+	# WaitForAgents,
+	# Results_Principal,
+	# WaitForPrincipals,
+	# Results_Agent,
+	# Questionnaire,
+	# Last_Page
 ]

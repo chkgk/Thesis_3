@@ -93,6 +93,8 @@ class Agent(Page):
 
 	def vars_for_template(self):
 		return {
+			'p1_category': self.player.category_from_principal,
+
 			'width_a': self.player.cat_end_abs_1,
 			'width_b': self.player.cat_end_abs_2 - self.player.cat_end_abs_1,
 			'width_c': self.player.cat_end_abs_3 - self.player.cat_end_abs_2,
