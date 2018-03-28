@@ -6,63 +6,58 @@
 {% endblock %}
 
 {% block content %}
-<p>
-	Der Computer hat Ihnen folgende Rolle zugewiesen: <strong>Finanzberater</strong>
-</p>
-<p>
-	Ihr Kunde hat Ihnen den Begriff <em>{{ player.category_from_principal }}</em> kommuniziert.
-</p>
-<p>
-	Sie haben entschieden für Ihren Kunden {{ player.decision_for_principal }} in die riskante Anlage zu investieren.
-</p>
-<p>
-{% if group.investment_success %}
+	<p>
+		Der Computer hat Ihnen folgende Rolle zugewiesen: <strong>Finanzberater</strong>
+	</p>
+	<p>
+		Ihr Kunde hat Ihnen den Begriff <em>{{ player.category_from_principal }}</em> kommuniziert.
+	</p>
+	<p>
+		Sie haben entschieden für Ihren Kunden {{ player.decision_for_principal }} in die riskante Anlage zu investieren.
+	</p>
+	<p>
+	{% if group.investment_success %}
 
-	Die Investition war erfolgreich.
+		Die Investition war erfolgreich.
 
-{% else %}
+	{% else %}
 
-	Die Investition war nicht erfolgreich.
+		Die Investition war nicht erfolgreich.
 
-{% endif %}
-</p>
+	{% endif %}
+	</p>
 
-<p>
-	Die Auszahlung Ihres Kunden aus Teil 2 beträgt daher {{ player.payoff_of_principal }}.
+	<p>
+		Die Auszahlung Ihres Kunden aus Teil 2 beträgt daher {{ player.payoff_of_principal }}.
 
-</p>
+	</p>
 
-<p>
-{% if player.compensation == "fixed" %}
+	<p>
+	{% if player.compensation == "fixed" %}
 
-	Sie erhalten eine feste Bezahlung von <strong>{{ player.payoff }}</strong>
+		Sie erhalten eine feste Bezahlung von <strong>{{ player.payoff }}</strong>
 
-{% elif player.compensation == "variable_result" %}
+	{% elif player.compensation == "variable_result" %}
 
-	Sie erhalten eine feste Bezahlung von {{ Constants.fixed_payment }} und werden zusätzlich mit {{ Constants.share_result }}% am Ergebnis Ihres Kunden beteiligt.<br/>
-	Ihre Bezahlung beträgt daher <strong>{{ player.payoff }}</strong>.
+		Sie erhalten eine feste Bezahlung von {{ Constants.fixed_payment }} und werden zusätzlich mit {{ Constants.share_result }}% am Ergebnis Ihres Kunden beteiligt.<br/>
+		Ihre Bezahlung beträgt daher <strong>{{ player.payoff }}</strong>.
 
-{% elif player.compensation == "variable_profit" %}
+	{% elif player.compensation == "variable_profit" %}
 
-	Sie erhalten eine feste Bezahlung von {{ Constants.fixed_payment }} und werden zusätzlich mit {{ Constants.share_profit }}% am Ergebnis Ihres Kunden beteiligt.<br/>
-	Ihre Bezahlung beträgt daher <strong>{{ player.payoff }}</strong>.
+		Sie erhalten eine feste Bezahlung von {{ Constants.fixed_payment }} und werden zusätzlich mit {{ Constants.share_profit }}% am Ergebnis Ihres Kunden beteiligt.<br/>
+		Ihre Bezahlung beträgt daher <strong>{{ player.payoff }}</strong>.
 
-{% endif %}
-</p>
-<p>&nbsp;</p>
+	{% endif %}
+	</p>
+	<p>&nbsp;</p>
 
-
-<p>Ihr Kunde hat eine Mitteilung an Sie gesendet, um seine Zufriedenheit oder Unzufriedenheit mit Ihrer Entscheidung auszudrücken:</p>
-<p style="text-align: center;"><em>{{ player.message_from_principal }}</em></p>
-
+	<p>Ihr Kunde hat eine Mitteilung an Sie gesendet, um seine Zufriedenheit oder Unzufriedenheit mit Ihrer Entscheidung auszudrücken:</p>
+	<p style="text-align: center;">{{ player.message_from_principal }}</p>
 
 
 
-
-
-
-    {% next_button %}
-
+	</p>
+    <div align="right">{% next_button %}</div>
 {% endblock %}
 
 

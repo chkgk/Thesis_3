@@ -1,4 +1,4 @@
-$('.otree-btn-next').hide()
+$('.otree-btn-next').hide();
 
 function Category(id, otree_field_rel_id, otree_field_abs_id, order) {
     this.otree_field_rel_id = otree_field_rel_id;
@@ -41,13 +41,17 @@ function Category(id, otree_field_rel_id, otree_field_abs_id, order) {
             // console.log(self.cm.fraction_range(self));
             self.update_otree_field();
         });
+        this.container_element.on('resizestop', function(event, ui) {
+            if (self.order == 5 && self.cm.absolute_range(self)['high'] == 1000) {
+                self.resizable_off();
+                self.cm.activate_next();
+            }
+        });
     }
 
     this.update_otree_field = function () {
         $('#'+this.otree_field_rel_id).val(this.cm.fraction_range(this)['high']);
         $('#'+this.otree_field_abs_id).val(Math.round(this.cm.absolute_range(this)['high']));
-
-        this.check_next_button();
     }
 
     this.draggable_on = function () {
@@ -65,6 +69,11 @@ function Category(id, otree_field_rel_id, otree_field_abs_id, order) {
         this.container_element.children('.category_label_handle').addClass('resize_handle');
     }
 
+    this.resizable_off = function () {
+        this.container_element.resizable({disabled: true});
+        this.container_element.children('.category_label_handle').removeClass('resize_handle');
+    }
+
     this.set_pos = function (target_pos) {
         this.container_element.position({my: "left top", at: target_pos, of: "#axis"});
     }
@@ -76,18 +85,6 @@ function Category(id, otree_field_rel_id, otree_field_abs_id, order) {
     this.set_width = function (width) {
         this.width = width;
         this.container_element.width(this.width);
-        this.check_next_button();
-
-    }
-
-    this.check_next_button = function () {
-        if (this.order == 5) {
-            if (this.cm.fraction_range(this)['high'] == 1.0) {
-                $('.otree-btn-next').show();
-            } else {
-                $('.otree-btn-next').hide();
-            }
-        }
     }
 
     this.handle_left = function () {
@@ -128,6 +125,10 @@ function CategoryManager(list_of_elements, axis_id) {
                 return this.catlist[e];
             }
         }
+    }
+
+    this.activate_next = function () {
+        $('.otree-btn-next').show();
     }
 
     this.successor_by_element = function (element) {
@@ -194,6 +195,8 @@ function CategoryManager(list_of_elements, axis_id) {
 
         }
 
+        target.update_otree_field();
+
         // if (target.right_fixed) {
         //     // it has already snapped left, now resize
         //     var remaining_space = this.axis.width() - occupied_space;
@@ -217,6 +220,12 @@ function CategoryManager(list_of_elements, axis_id) {
         if (successor !== undefined) {
             if (successor.start_width - delta_w > successor.label_min_size) {
                 successor.set_width(successor.start_width - delta_w);
+
+                var occupied_space = this.left_sum(successor.order);
+                var new_pos = "left+"+occupied_space + " top";
+                successor.set_pos(new_pos);
+
+                //successor.update_otree_field();
             }                       
         }
     }
@@ -268,10 +277,16 @@ function CategoryManager(list_of_elements, axis_id) {
         return { low: low_rel, high: high_rel, dif: dif };
     }
 
-    this.left_sum = function () {
+    this.left_sum = function (up_to) {
         var sum = 0;
-        for (var e = 0; e < this.dropped.length-1; e++) {
-            sum += this.dropped[e].width;
+        if (up_to === undefined) {
+            for (var e = 0; e < this.dropped.length-1; e++) {
+                sum += this.dropped[e].width;
+            }
+        } else {
+            for (var e = 1; e < up_to; e++) {
+                sum += this.dropped[e-1].width;
+            }
         }
         return sum;
     }
@@ -307,5 +322,3 @@ var d = new Category("d", "id_cat_end_rel_4", "id_cat_end_abs_4", 4);
 var e = new Category("e", "id_cat_end_rel_5", "id_cat_end_abs_5", 5);
 
 var CM = new CategoryManager([a, b, c, d, e], '#axis');
-
-

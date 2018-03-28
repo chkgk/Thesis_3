@@ -2,65 +2,34 @@
 {% load staticfiles otree %}
 
 {% block title %}
-    Teil 2 - Instruktionen
+    Teil 2 - Instruktionen (2/3)
+{% endblock %}
+
+{% block styles%}
+    <style type="text/css">
+        .controls label {
+            margin-right: 10px;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-    <p>Sie beginnen nun mit dem zweiten Teil des Experiments. Wir machen Sie nun zunächst mit den drei wichtigen Elementen dieses Studienteils vertraut: <em>Kunden, Finanzberatern</em> und den <em>Anlagemöglichkeiten.</em></p>
 
-    <p><strong>Kunden</strong></p>
-    <p>Kunden besitzen {{ Constants.endowment_principals }}, die investiert werden sollen. Sie treten daher in Kontakt mit einem Finanzberater, dem sie mitteilen, wie die Anlageentscheidung für sie getroffen werden soll. Dazu wählen Sie einen der fünf Begriffe aus, die Sie bereits in Teil 1 kennengelernt haben. Am Ende erhalten Kunden als Auszahlung das Ergebnis der für sie getroffenen Investition. Sie können ihrem Finanzberater dann auch eine Nachricht schicken, in der sie ihre Zufriedenheit oder Unzufriedenheit mit seiner Entscheidung ausdrücken.</p>
-    <p><strong>Finanzberater</strong></p>
-    <p>Finanzberater treffen die Investitionsentscheidung für ihre Kunden. Sie erhalten dazu von ihren Kunden eine Mitteilung, wie die Entscheidung getroffen werden soll. Finanzberater sind an diese Mitteilung jedoch nicht gebunden, sondern können frei entscheiden. 
-
-    {% if player.compensation == "fixed" %}
-    	Am Ende erhalten Finanzberater als Auszahlung einen fixen Betrag {{ Constants.fixed_payment }}.
-
-    {% elif player.compensation == "variable_result" %}
-    	Am Ende erhalten Finanzberater als Auszahlung einen fixen Betrag {{ Constants.fixed_payment }} und einen prozentualen Anteil am Investitionsergebnis Ihrer Kunden.
-
-    {% elif player.compensation == "variable_profit" %}
-    	Am Ende erhalten Finanzberater als Auszahlung einen fixen Betrag {{ Constants.fixed_payment }} und einen prozentualen Anteil an der Rendite Ihrer Kunden.
-
-    {% endif %}
-
-    Finanzberater erhalten die Nachricht zur Zufriedenheit bzw. Unzufriedenheit ihrer Kunden.</p>
     <p><strong>Anlagemöglichkeiten</strong><p>
-    <p>Es stehen zwei Anlagemöglichkeiten zur Verfügung, die im Folgenden beschrieben werden:</p>
+    <p>Der Finanzberater entscheidet, welcher Anteil des gesamten Vermögens des Kunden in folgende riskante Anlagemöglichkeiten investiert wird:</p>
 
-    <p>&nbsp;</p>
-    <table style="border-color: black; margin-left: auto; margin-right: auto; width: 826px;" border="2">
-        <tbody>
-            <tr>
-                <td style="width: 423px;">
-                    <p><em>Die sichere Anlage</em></p>
-                </td>
-                <td style="width: 432px;">
-                    <p><em>Die riskante Anlage</em></p>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 423px;">
-                    <p>&nbsp;</p>
-                    <p>Der Kunde erh&auml;lt eine Rendite von 0% auf das investierte Kapital.</p>
-                    <p>&nbsp;</p>
-                </td>
-                <td style="width: 432px;">
-                    <p>Mit einer Wahrscheinlichkeit von &nbsp;erh&auml;lt der Kunde eine Rendite von +250% auf das investierte Kapital.</p>
-                    <p>Mit einer Wahrscheinlichkeit von &nbsp;erh&auml;lt der Kunde eine Rendite von -100% auf das investierte Kapital.</p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <p>Mit einer Wahrscheinlichkeit von 1/3 erhält der Kunde eine Rendite von +250% auf das investierte Kapital. <br />
+    Seine Auszahlung aus der riskanten Anlage beträgt in diesem Fall: 10€ + 2,5 * Investment.</p>
 
-    <p>&nbsp;</p>
-    <p>Der Finanzberater teilt das gesamte Vermögen des Kunden ({{ Constants.endowment_principals }}) zwischen diesen beiden Anlagemöglichkeiten auf. Er kann dabei jede beliebige Verteilung zwischen sicherer und riskanter Anlage wählen.</p>
-    <p><strong>Ablauf</strong></p>
-    <p>In diesem Experiment werden zunächst alle Teilnehmer beide Rollen annehmen: Die Rolle des Kunden und die Rolle des Finanzberaters. 
-    Jeder Teilnehmer ist zunächst Kunde und wählt einen der fünf Begriffe aus Teil 1 aus, um seinen Investitionswunsch zu signalisieren.<br/>
-    Dann nimmt jeder Teilnehmer die Rolle eines Finanzberaters ein und trifft die Investitionsentscheidungen für seine Kunden.</p>
-    <p>Der Computer wählt dann zufällig einen Teil der Teilnehmer aus, deren Beratungsentscheidung auszahlungsrelevant wird. Das heißt, die ausgewählten Teilnehmer erhalten die Auszahlung für ihre Entscheidung als Finanzberater. Die anderen, nicht ausgewählten Teilnehmer erhalten die Auszahlung für Ihre Rolle als Kunde und bekommen entsprechend das aus der Entscheidung ihres Finanzberaters resultierende Investitionsergebnis.</p>
+    <p>Mit einer Wahrscheinlichkeit von 2/3 erhält der Kunde eine Rendite von -100% auf das investierte Kapital.<br />
+    Seine Auszahlung aus der riskanten Anlage beträgt in diesem Fall: 10€ - Investment.</p>
+    <p>Zusätzlich erhält der Kunde immer den nicht investierten Teil seines Vermögens sicher.</p>
 
-    {% next_button %}
+    <p><strong>Kontrollfragen</strong></p>
+    {% formfield player.question_3  label="Nehmen Sie an, für einen Kunden wurden 4€ in die riskante Anlage investiert und die Investition war erfolgreich.  <br/>Welche Auszahlung erhält der Kunde?" %}
+
+    {% formfield player.question_4  label="Nehmen Sie an, für einen Kunden wurden 6€ in die riskante Anlage investiert und die Investition war nicht erfolgreich. <br/>Welche Auszahlung erhält der Kunde?" %}
+
+    <div align="right">{% next_button %}</div>
 
 {% endblock %}

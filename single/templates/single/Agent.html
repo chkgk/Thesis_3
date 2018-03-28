@@ -2,162 +2,147 @@
 {% load staticfiles otree %}
 
 {% block title %}
-    Sie sind nun ein Finanzberater
+    Sie treffen nun die Entscheidung als Finanzberater
 {% endblock %}
 
 {% block styles %}
     <link rel="stylesheet" href="{% static "shared/bootstrap-slider.min.css" %}"/>
     <link rel="stylesheet" href="{% static "shared/category.css" %}">
+    <link rel="stylesheet" href="{% static "shared/agent.css" %}">
 {% endblock %}
 
 {% block scripts %}
     <script src="{% static "shared/bootstrap-slider.min.js" %}"></script>
     <script type="text/javascript">
+        
         $('.otree-btn-next').hide();
-        var touched =  {
-            1: 0,
-            2: 0,
-            3: 0,
-            4: 0,
-            5: 0,
+var touched =  {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+};
+
+function check_all_sliders_touched(num_sliders) {
+    sum = 0;
+    for (e in touched) {
+        sum += touched[e];
+    }
+    return (sum == num_sliders);
+}
+
+$("#id_decision_for_p1").slider();
+// $("#id_invest_client_2").slider();
+// $("#id_invest_client_3").slider();
+// $("#id_invest_client_4").slider();
+
+
+function calc_client_payoffs(risky) {
+    var safe = 10 - risky;
+
+    var good_state = safe + risky*3.5;
+    var bad_state = safe;
+
+    return {'win': good_state, 'lose': bad_state};
+}
+
+function calc_advisor_payoffs(risky) {
+    var fixed_pay = {{ Constants.fixed_payment|json }};
+    var compensation = {{ player.compensation|json }};
+    var share_result = {{ Constants.share_result|json }};
+    var share_profit = {{ Constants.share_profit|json }};
+    var client_payoffs = calc_client_payoffs(risky);
+
+    if (compensation == 'fixed') {
+        return {'win': 5, 'lose': 5, 'ev': 5};
+    } else if (compensation == 'variable_result') {
+        return {
+            'win': fixed_pay + client_payoffs['win']*share_result/100, 
+            'lose': fixed_pay + client_payoffs['lose']*share_result/100, 
         };
+    } else { // variable_profit
+        return {
+            'win': fixed_pay + risky*2.5*share_profit/100,
+            'lose': fixed_pay,
+        };
+    }
+}
 
-        function check_all_sliders_touched(num_sliders) {
-            sum = 0;
-            for (e in touched) {
-                sum += touched[e];
-            }
-            return (sum == num_sliders);
-        }
+$('#id_decision_for_p1').on('change', function (event) {
+    change_table(event);
+});
 
-        $("#id_decision_for_p1").slider();
-        // $("#id_invest_client_2").slider();
-        // $("#id_invest_client_3").slider();
-        // $("#id_invest_client_4").slider();
+$('.slider-handle').hide();
+$('.slider').on('mousedown', function (event) {
+    $(this).find('.slider-handle:not(.hide)').show();
+});
 
+// $('#id_invest_client_2').on('change', function (event) {
+//     change_table(event);
+// });
 
-        function calc_client_payoffs(risky) {
-            var safe = 10 - risky;
+// $('#id_invest_client_3').on('change', function (event) {
+//     change_table(event);
+// });
 
-            var good_state = safe + risky*3.5;
-            var bad_state = safe;
+// $('#id_invest_client_4').on('change', function (event) {
+//     change_table(event);
+// });
 
-            return {'win': good_state, 'lose': bad_state};
-        }
+function change_table(event) {
+    var client_payoffs = calc_client_payoffs(event.target.value);
+    var advisor_payoffs = calc_advisor_payoffs(event.target.value);
 
-        function calc_advisor_payoffs(risky) {
-            var fixed_pay = {{ Constants.fixed_payment|json }};
-            var compensation = {{ player.compensation|json }};
-            var share_result = {{ Constants.share_result|json }};
-            var share_profit = {{ Constants.share_profit|json }};
-            var client_payoffs = calc_client_payoffs(risky);
+    var id = event.target.id.slice(-1);
+    //console.log(id);
 
-            if (compensation == 'fixed') {
-                return {'win': 5, 'lose': 5, 'ev': 5};
-            } else if (compensation == 'variable_result') {
-                return {
-                    'win': fixed_pay + client_payoffs['win']*share_result/100, 
-                    'lose': fixed_pay + client_payoffs['lose']*share_result/100, 
-                };
-            } else { // variable_profit
-                return {
-                    'win': fixed_pay + risky*2.5*share_profit/100,
-                    'lose': fixed_pay,
-                };
-            }
-        }
+    touched[id] = 1;
 
-        $('#id_decision_for_p1').on('change', function (event) {
-            change_table(event);
-        });
+    $('#safe_'+id).html((10 - event.target.value).toFixed(2)+'€');
+    $('#risky_'+id).html(parseFloat(event.target.value).toFixed(2)+'€');
 
-        // $('#id_invest_client_2').on('change', function (event) {
-        //     change_table(event);
-        // });
-        
-        // $('#id_invest_client_3').on('change', function (event) {
-        //     change_table(event);
-        // });
-        
-        // $('#id_invest_client_4').on('change', function (event) {
-        //     change_table(event);
-        // });
+    $('#lose_'+id).html(client_payoffs['lose'].toFixed(2)+'€');
+    $('#win_'+id).html(client_payoffs['win'].toFixed(2)+'€');
 
-        function change_table(event) {
-            var client_payoffs = calc_client_payoffs(event.target.value);
-            var advisor_payoffs = calc_advisor_payoffs(event.target.value);
+    $('#pay_lose_'+id).html(advisor_payoffs['lose'].toFixed(2)+'€');
+    $('#pay_win_'+id).html(advisor_payoffs['win'].toFixed(2)+'€');
+    //$('#pay_ev_'+id).html(advisor_payoffs['ev'].toFixed(2));
 
-            var id = event.target.id.slice(-1);
-            //console.log(id);
+    // var ev = calc_sums();
+    // $('#ev').html(ev.toFixed(2));
 
-            touched[id] = 1;
+    if (check_all_sliders_touched(1)) {
+        $('.otree-btn-next').show();
+    }
+}
 
-            $('#safe_'+id).html((10 - event.target.value).toFixed(2)+'€');
-            $('#risky_'+id).html(parseFloat(event.target.value).toFixed(2)+'€');
+function calc_sums() {
+    var ev_sum = 0;
 
-            $('#lose_'+id).html(client_payoffs['lose'].toFixed(2)+'€');
-            $('#win_'+id).html(client_payoffs['win'].toFixed(2)+'€');
+    for (var id = 1; id < 5; id++) {
+        loss = parseFloat($('#pay_lose_'+id).html());
+        win = parseFloat($('#pay_win_'+id).html());
+        ev_sum += (loss * 2/3) + (win * 1/3);
+    }
 
-            $('#pay_lose_'+id).html(advisor_payoffs['lose'].toFixed(2)+'€');
-            $('#pay_win_'+id).html(advisor_payoffs['win'].toFixed(2)+'€');
-            //$('#pay_ev_'+id).html(advisor_payoffs['ev'].toFixed(2));
-
-            // var ev = calc_sums();
-            // $('#ev').html(ev.toFixed(2));
-
-            if (check_all_sliders_touched(1)) {
-                $('.otree-btn-next').show();
-            }
-        }
-
-        function calc_sums() {
-            var ev_sum = 0;
-
-            for (var id = 1; id < 5; id++) {
-                loss = parseFloat($('#pay_lose_'+id).html());
-                win = parseFloat($('#pay_win_'+id).html());
-                ev_sum += (loss * 2/3) + (win * 1/3);
-            }
-
-            return ev_sum;
-        }
-
+    return ev_sum;
+}
     </script>
 {% endblock %}
 
 {% block content %}
 
-    <p>Als Finanzberater wird Ihnen ein anderer Teilnehmer in diesem Raum zufällig als Kunde zugeordnet.</p>
-
-    <p>Ihr Kunde besitzt {{ Constants.endowment_principals }}. Sie werden nun entscheiden, welcher Anteil x der {{ Constants.endowment_principals }} Ihres Kunden (zwischen 0 und {{ Constants.endowment_principals }}) in die zuvor beschriebene riskante Anlage investiert werden soll. Der Restbetrag {{ Constants.endowment_principals }}-x wird automatisch in die sichere Anlage investiert.</p>
-
-    <table style="border-color: black; margin-left: auto; margin-right: auto; width: 826px;" border="2">
-        <tbody>
-            <tr>
-                <td style="width: 423px;">
-                    <p><em>Die sichere Anlage</em></p>
-                </td>
-                <td style="width: 432px;">
-                    <p><em>Die riskante Anlage</em></p>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 423px;">
-                    <p>&nbsp;</p>
-                    <p>Der Kunde erh&auml;lt eine Rendite von 0% auf das investierte Kapital.</p>
-                    <p>&nbsp;</p>
-                </td>
-                <td style="width: 432px;">
-                    <p>Mit einer Wahrscheinlichkeit von 1/3 erhält der Kunde eine Rendite von +250% auf das investierte Kapital.</p>
-                    <p>Mit einer Wahrscheinlichkeit von 2/3 erhält der Kunde eine Rendite von -100% auf das investierte Kapital.</p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <p>&nbsp;</p>
-
-    <p><span style="text-decoration: underline;">Ihre Auszahlung:</span></p>
-
+    <p><b>Die riskante Anlage</b></p>
+    <p>Mit einer Wahrscheinlichkeit von 1/3 erhält der Kunde eine Rendite von +250% auf das investierte Kapital. <br/>
+    Seine Auszahlung aus der riskanten Anlage beträgt in diesem Fall: {{ Constants.endowment_principals }} + 2,5 * Investment.
+    </p>
+    <p>
+        Mit einer Wahrscheinlichkeit von 2/3 erhält der Kunde eine Rendite von -100% auf das investierte Kapital.<br />
+        Seine Auszahlung aus der riskanten Anlage beträgt in diesem Fall: {{ Constants.endowment_principals }} - Investment.
+    </p>
+    <p>Zusätzlich erhält der Kunde immer den nicht investierten Teil seines Vermögens sicher.</p>
+    <p><b>Ihre Auszahlung</b></p>
     <p>
     {% if player.compensation == "fixed" %}
 
@@ -174,11 +159,40 @@
     {% endif %}
     </p>
 
-    <p>Nachdem Ihr Kunde das Ergebnis der Investitionsentscheidung erfahren hat, erhalten Sie eine kurze Mitteilung von ihm, welche seine Zufriedenheit oder Unzufriedenheit mit Ihrer Entscheidung zum Ausdruck bringt.</p>
+    <p>Die Tabelle zeigt den Anlagewunsch jedes Ihrer Kunden. Durch Klicken auf die graue Skala und Bewegen des jeweiligen Sliders können Sie die Investition in die riskanten Anlage für jeden Kunden individuell auswählen. Daneben sehen Sie die möglichen Auszahlungen an den Kunden und Ihre eigene Beratervergütung.</p>
 
-    <p>Ihr Kunde hatte zuvor die Möglichkeit einen der fünf Begriffe auszuwählen, der seinen Investitionswunsch signalisiert. Er hat den Begriff <strong>{{ player.category_from_principal }}</strong> gewählt.</p>
-
-    <p>Zur Erinnerung: Sie haben die Begriffe wie folgt verteilt:</p>
+    <table width="100%">
+        <tr>
+            <th colspan="2">Kunde</th>
+            <th colspan="3">Investment</th>
+            <th colspan="2">Auszahlung Kunde</th>
+            <th colspan="3">Auszahlung Berater</th>
+        </tr>
+        <tr>
+            <th width="15">#</th>
+            <th width="180">Anlagewunsch</th>
+            <th width="60">sicher</th>
+            <th width="260"></th>
+            <th width="65">riskant</th>
+            <th width="100">schlecht</th>
+            <th width="75">gut</th>
+            <th width="100">schlecht</th>
+            <th width="75">gut</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>sicherheitsorientiert</td>
+            <td id="safe_1">0.00€</td>
+            <td align="center"><span class="slider-label-left">0%</span><input id="id_decision_for_p1" name="decision_for_p1" type="text" data-slider-min="0" data-slider-max="10" data-slider-step="0.1" data-slider-value="0.0"/><span class="slider-label-right">100%</span></td>
+            <td id="risky_1">0.00€</td>
+            <td id="lose_1">0.00€</td>
+            <td id="win_1">0.00€</td>
+            <td id="pay_lose_1">0.00€</td>
+            <td id="pay_win_1">0.00€</td>
+        </tr>
+    </table>
+    <p>&nbsp;</p>
+    <p>Zur Erinnerung: Sie selbst haben die Anlagestrategien wie folgt verteilt:</p>
     <div id="super_box">
         <div id="left_axis_label" class="axis_label">0%</div>
         <div id="right_axis_label" class="axis_label">100%</div>
@@ -205,40 +219,8 @@
             </div>
         </div>
     </div>
-    <p>&nbsp;</p>
-
-    <table width="100%">
-        <tr>
-            <th colspan="2">Kunde</th>
-            <th colspan="3">Investment</th>
-            <th colspan="2">Auszahlung Kunde</th>
-            <th colspan="3">Auszahlung Berater</th>
-        </tr>
-        <tr>
-            <th width="15">#</th>
-            <th width="180">Anlagewunsch</th>
-            <th width="60">sicher</th>
-            <th width="260">Aufteilung</th>
-            <th width="65">riskant</th>
-            <th width="100">schlecht</th>
-            <th width="75">gut</th>
-            <th width="100">schlecht</th>
-            <th width="75">gut</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>sicherheitsorientiert</td>
-            <td id="safe_1">0.00€</td>
-            <td><input id="id_decision_for_p1" name="decision_for_p1" type="text" data-slider-min="0" data-slider-max="10" data-slider-step="0.1" /></td>
-            <td id="risky_1">0.00€</td>
-            <td id="lose_1">0.00€</td>
-            <td id="win_1">0.00€</td>
-            <td id="pay_lose_1">0.00€</td>
-            <td id="pay_win_1">0.00€</td>
-        </tr>
-    </table>
 
     <p>&nbsp; </p>
-    {% next_button %}
+    <div align="right">{% next_button %}</div>
 
 {% endblock %}
