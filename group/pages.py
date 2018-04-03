@@ -119,7 +119,7 @@ class WaitForAgents(WaitPage):
 		self.group.after_investments()
 
 
-class Results_Principal(Page):
+class Results_Principals(Page):
 
 	def is_displayed(self):
 		return self.player.role() == "Principal"
@@ -133,7 +133,7 @@ class WaitForPrincipals(WaitPage):
 		self.group.after_results_principals()
 
 
-class Results_Agent(Page):
+class Results_Agents(Page):
 
 	def is_displayed(self):
 		return self.player.role() == "Agent"
@@ -163,18 +163,18 @@ class Last_Page(Page):
 
 
 page_sequence = [
-	# Welcome,
+	Welcome,
 	CategoryElicitation,
-	# Instructions1,
-	# Instructions2,
-	# Instructions3,
+	Instructions1,
+	Instructions2,
+	Instructions3,
 	CategoryPick,
 	CategoryWaitPage,
 	Agent,
-	# WaitForAgents,
-	# Results_Principal,
-	# WaitForPrincipals,
-	# Results_Agent,
-	# Questionnaire,
-	# Last_Page
+	WaitForAgents,
+	Results_Principals,
+	WaitForPrincipals,
+	Results_Agents,
+	Questionnaire,
+	Last_Page
 ]

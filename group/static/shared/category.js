@@ -42,7 +42,7 @@ function Category(id, otree_field_rel_id, otree_field_abs_id, order) {
             self.update_otree_field();
         });
         this.container_element.on('resizestop', function(event, ui) {
-            if (self.order == 5 && self.cm.absolute_range(self)['high'] == 1000) {
+            if (self.order == 5 && self.cm.absolute_range(self)['high'] >= 999.9) {
                 self.resizable_off();
                 self.cm.activate_next();
             }

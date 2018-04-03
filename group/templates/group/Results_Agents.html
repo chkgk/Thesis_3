@@ -13,20 +13,19 @@
 		Ihr Kunde hat Ihnen den Begriff <em>{{ player.category_from_principal }}</em> kommuniziert.
 	</p>
 	<p>
-		Sie haben entschieden für Ihren Kunden {{ player.decision_for_principal }} in die riskante Anlage zu investieren.
+		Sie haben entschieden für Ihren Kunden {{ player.invested_amount }} in die riskante Anlage zu investieren.
 	</p>
 	<p>
-	{% if group.investment_success %}
+	{% if player.outcome_of_principal == 1 %}
 
 		Die Investition war erfolgreich.
 
-	{% else %}
+	{% elif player.outcome_of_principal == 0 %}
 
 		Die Investition war nicht erfolgreich.
 
 	{% endif %}
 	</p>
-
 	<p>
 		Die Auszahlung Ihres Kunden aus Teil 2 beträgt daher {{ player.payoff_of_principal }}.
 
@@ -39,12 +38,12 @@
 
 	{% elif player.compensation == "variable_result" %}
 
-		Sie erhalten eine feste Bezahlung von {{ Constants.fixed_payment }} und werden zusätzlich mit {{ Constants.share_result }}% am Ergebnis Ihres Kunden beteiligt.<br/>
+		Sie erhalten eine feste Bezahlung von {{ Constants.variable_payment }} und werden zusätzlich mit {{ Constants.share_result }}% am Ergebnis Ihres Kunden beteiligt.<br/>
 		Ihre Bezahlung beträgt daher <strong>{{ player.payoff }}</strong>.
 
 	{% elif player.compensation == "variable_profit" %}
 
-		Sie erhalten eine feste Bezahlung von {{ Constants.fixed_payment }} und werden zusätzlich mit {{ Constants.share_profit }}% am Gewinn Ihres Kunden beteiligt.<br/>
+		Sie erhalten eine feste Bezahlung von {{ Constants.variable_payment }} und werden zusätzlich mit {{ Constants.share_profit }}% am Gewinn Ihres Kunden beteiligt.<br/>
 		Ihre Bezahlung beträgt daher <strong>{{ player.payoff }}</strong>.
 
 	{% endif %}
@@ -59,5 +58,11 @@
 	</p>
     <div align="right">{% next_button %}</div>
 {% endblock %}
+
+
+
+
+
+	
 
 
