@@ -19,30 +19,30 @@ SESSION_CONFIGS = [
     {
         'name': 'single_fixed',
         'display_name': "SINGLE Fixed",
-        'num_demo_participants': 2,
+        'num_demo_participants': 18,
         'app_sequence': ['single'],
         'compensation': 'fixed',     # Enter either fixed, variable_result or variable_profit
     },
     {
         'name': 'single_result',
         'display_name': "SINGLE Variable Result",
-        'num_demo_participants': 2,
+        'num_demo_participants': 18,
         'app_sequence': ['single'],
         'compensation': 'variable_result',     # Enter either fixed, variable_result or variable_profit
     },
     {
         'name': 'single_profit',
         'display_name': "SINGLE Variable Profit",
-        'num_demo_participants': 2,
+        'num_demo_participants': 18,
         'app_sequence': ['single'],
         'compensation': 'variable_profit',     # Enter either fixed, variable_result or variable_profit
     },
     {
         'name': 'group',
         'display_name': "GROUP Treatments",
-        'num_demo_participants': 6,
+        'num_demo_participants': 18,
         'app_sequence': ['group'],
-        'compensation': 'variable_result',     # Enter either fixed, variable_result or variable_profit
+        'compensation': 'variable_profit',     # Enter either fixed, variable_result or variable_profit
 
     },
 ]

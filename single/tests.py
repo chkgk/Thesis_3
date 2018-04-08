@@ -97,35 +97,24 @@ class PlayerBot(Bot):
 		excessive = False
 
 
-		# instructions 1
+		# welcome
 		yield (pages.Welcome)
-		yield (pages.Instructions1)
 
+		# category elicitation
 		yield (pages.CategoryElicitation, test_data['Category_Elicitation']['valid_inputs'])
 
+		# instructions 1
+		yield SubmissionMustFail(pages.Instructions1, {'question_1': 'Falsch', 'question_2': 'Falsch'})
+		yield SubmissionMustFail(pages.Instructions1, {'question_1': 'Falsch', 'question_2': 'Richtig'})
+		yield (pages.Instructions1, {'question_1': 'Richtig', 'question_2': 'Falsch'})
+
 		# instructions 2
-		yield (pages.Instructions2)
+		yield SubmissionMustFail(pages.Instructions2, {'question_3': randint(21, 2500), 'question_4': randint(0, 3)})
+		yield (pages.Instructions2, {'question_3': 20, 'question_4': 4})
 
-		# Comprehension Questions 1
-		# fail
-		if excessive:
-			keys, values = zip(*test_data['Comprehension_1']['invalid_inputs'].items())
-			for v in itertools.product(*values):
-				yield SubmissionMustFail(pages.Control_1, dict(zip(keys, v)))
-
-		# pass 
-		yield (pages.Control_1, test_data["Comprehension_1"]['valid_inputs'])
-
-
-		# Comprehension Questions 2
-		# fail
-		if excessive:
-			keys, values = zip(*test_data['Comprehension_2']['invalid_inputs'].items())
-			for v in itertools.product(*values):
-				yield SubmissionMustFail(pages.Control_2, dict(zip(keys, v)))
-
-		# pass
-		yield (pages.Control_2, test_data["Comprehension_2"]['valid_inputs'])
+		# instructions 3
+		yield SubmissionMustFail(pages.Instructions3, {'question_5': 'Richtig', 'question_6': 'Falsch'})
+		yield (pages.Instructions3, {'question_5': 'Falsch', 'question_6': 'Falsch'})
 
 
 		# category picker
@@ -207,23 +196,21 @@ class PlayerBot(Bot):
 				assert self.player.payoff + self.player.participation_fee == 4.5
 			else:
 				assert self.player.payoff + self.player.participation_fee == 30.75
-		yield (pages.Last_Page)
+	#	yield (pages.Last_Page)
 
 
 
-# Control_1,
-# Control_2,
-# CategoryPick,
-# CategoryWaitPage,
-#     Hilfe,
-#     Agent,
-#     WaitPage1,
-#     Hilfe2,
-# #   Hilfe3,
-# #   WaitForAgents,
-#     Results_Principals,
-#     WaitForPrincipals,
-#     Hilfe4,
-#     Results_Agents,
-# #   Questionnaire,
-#     Last_Page
+	# Welcome,
+	# CategoryElicitation,
+	# Instructions1,
+	# Instructions2,
+	# Instructions3,
+	# CategoryPick,
+	# CategoryWaitPage,
+	# Agent,
+	# WaitForAgents,
+	# Results_Principals,
+	# WaitForPrincipals,
+	# Results_Agents,
+	# Questionnaire,
+	# Last_Page

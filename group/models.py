@@ -22,12 +22,12 @@ class Constants(BaseConstants):
 	endowment_principals = c(10)
 
 	# Fixed Compensation
-	fixed_payment = c(10)
+	fixed_payment = c(5)
 
 	#Variable Compensation
 	variable_payment = c(5)			# Fixer Anteil für die Agenten
 	share_result = 25
-	share_profit = 25
+	share_profit = 35
 
 
 class Subsession(BaseSubsession):
