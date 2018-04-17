@@ -6,13 +6,13 @@
 {% endblock %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{% static "shared/bootstrap-slider.min.css" %}"/>
-    <link rel="stylesheet" href="{% static "shared/category.css" %}">
-    <link rel="stylesheet" href="{% static "shared/agent.css" %}">
+    <link rel="stylesheet" href="{% static "group/bootstrap-slider.min.css" %}"/>
+    <link rel="stylesheet" href="{% static "group/category.css" %}">
+    <link rel="stylesheet" href="{% static "group/agent.css" %}">
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static "shared/bootstrap-slider.min.js" %}"></script>
+    <script src="{% static "group/bootstrap-slider.min.js" %}"></script>
     <script type="text/javascript">
         
         $('.otree-btn-next').hide();
@@ -142,13 +142,12 @@ function calc_sums() {
 
     <p><b>Die riskante Anlage</b></p>
     <p>Mit einer Wahrscheinlichkeit von 1/3 erhält der Kunde eine Rendite von +250% auf das investierte Kapital. <br/>
-    Seine Auszahlung aus der riskanten Anlage beträgt in diesem Fall: {{ Constants.endowment_principals }} + 2,5 * Investment.
+    Seine Auszahlung beträgt in diesem Fall: {{ Constants.endowment_principals }} + 2,5 * Investment.
     </p>
     <p>
         Mit einer Wahrscheinlichkeit von 2/3 erhält der Kunde eine Rendite von -100% auf das investierte Kapital.<br />
-        Seine Auszahlung aus der riskanten Anlage beträgt in diesem Fall: {{ Constants.endowment_principals }} - Investment.
+        Seine Auszahlung beträgt in diesem Fall: {{ Constants.endowment_principals }} - Investment.
     </p>
-    <p>Zusätzlich erhält der Kunde immer den nicht investierten Teil seines Vermögens sicher.</p>
     <p><b>Ihre Auszahlung</b></p>
     <p>
     {% if player.compensation == "fixed" %}
