@@ -18,28 +18,28 @@ SESSION_CONFIG_DEFAULTS = {
 SESSION_CONFIGS = [
     {
         'name': 'single_fixed',
-        'display_name': "SINGLE Fixed",
+        'display_name': "RiskOther - SINGLE Fixed",
         'num_demo_participants': 2,
         'app_sequence': ['single'],
         'compensation': 'fixed',     # Enter either fixed, variable_result or variable_profit
     },
     {
         'name': 'single_result',
-        'display_name': "SINGLE Variable Result",
+        'display_name': "RiskOther - SINGLE Variable Result",
         'num_demo_participants': 2,
         'app_sequence': ['single'],
         'compensation': 'variable_result',     # Enter either fixed, variable_result or variable_profit
     },
     {
         'name': 'single_profit',
-        'display_name': "SINGLE Variable Profit",
+        'display_name': "RiskOther - SINGLE Variable Profit",
         'num_demo_participants': 2,
         'app_sequence': ['single'],
         'compensation': 'variable_profit',     # Enter either fixed, variable_result or variable_profit
     },
     {
         'name': 'group_fixed',
-        'display_name': "GROUP Treatment Fix",
+        'display_name': "RiskOther - GROUP Treatment Fix",
         'num_demo_participants': 6,
         'app_sequence': ['group'],
         'compensation': 'fixed',     # Enter either fixed, variable_result or variable_profit
@@ -47,7 +47,7 @@ SESSION_CONFIGS = [
     },
     {
         'name': 'group_result',
-        'display_name': "GROUP Treatment Variable Result",
+        'display_name': "RiskOther - GROUP Treatment Variable Result",
         'num_demo_participants': 6,
         'app_sequence': ['group'],
         'compensation': 'variable_result',     # Enter either fixed, variable_result or variable_profit
@@ -55,7 +55,7 @@ SESSION_CONFIGS = [
     },
     {
         'name': 'group_profit',
-        'display_name': "GROUP Treatment Variable Profit",
+        'display_name': "RiskOther - GROUP Treatment Variable Profit",
         'num_demo_participants': 6,
         'app_sequence': ['group'],
         'compensation': 'variable_profit',     # Enter either fixed, variable_result or variable_profit
