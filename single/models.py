@@ -314,7 +314,6 @@ class Player(BasePlayer):
 		)
 
 
-
 	def create_gender_dummies(self):
 		if self.gender == "weiblich":
 			self.female = True
@@ -330,15 +329,19 @@ class Player(BasePlayer):
 			self.other_gender = True
 
 	def create_econ_dummy(self):
-		subject = self.studies.lower()
-		if "econ" in subject:
-			self.econ_student = True
-		elif "vwl" in subject:
-			self.econ_student = True
-		elif "ökono" in subject:
-			self.econ_student = True
+		if self.studies:
+			subject = self.studies.lower()
+			if "econ" in subject:
+				self.econ_student = True
+			elif "vwl" in subject:
+				self.econ_student = True
+			elif "ökono" in subject:
+				self.econ_student = True
+			else:
+				self.econ_student = False
 		else:
 			self.econ_student = False
+
 
 	def create_category_dummies(self):
 		if self.category_from_principal == "sehr konservativ":
