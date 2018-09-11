@@ -5,10 +5,10 @@ from otree.api import (
 
 import random
 
-author = 'Your name here'
+author = 'Luisa Kling, Christian König-Kersting'
 
 doc = """
-Your app description
+Group treatments of experiment 1. 
 """
 
 

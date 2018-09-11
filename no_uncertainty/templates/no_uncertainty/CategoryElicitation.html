@@ -1,0 +1,81 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static "single/jquery-ui.min.css" %}">
+    <link rel="stylesheet" href="{% static "single/category.css" %}">
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "single/jquery-ui.min.js" %}"></script>
+    <script type="text/javascript">
+        history.pushState(null, null, location.href);
+        window.onpopstate = function(event) {
+            history.go(1);
+        };
+    </script>
+{% endblock %}
+
+{% block title %}
+    Teil 1
+{% endblock %}
+
+{% block content %}
+    <p>Banken verwenden häufig folgende fünf Begriffe für verschiedene Geldanlagestrategien:</p>
+    <div id="super_box">
+        <div id="left_axis_label" class="axis_label">0%</div>
+        <div id="right_axis_label" class="axis_label">100%</div>
+        <div id="axis_box">
+            <div class="category_label" id="a" style="width: 200px; margin-right: 0px;">
+                <div class="label">sehr konservativ</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="b" style="width: 200px; margin-right: 0px;">
+                <div class="label">sicherheitsorientiert</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="c" style="width: 200px; margin-right: 0px;">
+                <div class="label">ausgeglichten</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="d" style="width: 200px; margin-right: 0px;">
+                <div class="label">wachstumsorientiert</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+            <div class="category_label" id="e" style="width: 200px; margin-right: 0px;">
+                <div class="label">offensiv</div>
+                <div class="category_label_handle handle_right"></div>
+            </div>
+        </div>
+    </div>
+    <p>Zum Verständnis der Skala, nehmen Sie an es gäbe <strong>eine</strong> riskante Geldanlagemöglichkeit, in die Sie investieren könnten. Geld, das Sie nicht investieren würden, verbliebe sicher angelegt. Die folgende Skala misst die Investition in die riskante Anlage als prozentualer Anteil Ihres Gesamtvermögens.</p>
+
+
+    <p>Gehen Sie die fünf Anlagestrategien der Reihe nach einzeln durch. Jede Strategie gibt die Spanne von Investitionsanteilen in die riskante Anlage an.</p>
+
+    <ul>
+        <li>Eine "sehr konservative" Strategie bedeutet, zwischen 0% und 20% seines Gesamtvermögens in die riskante Anlage zu investieren.</li>
+        <li>Eine "sicherheitsorientierte" Strategie bedeutet, zwischen 21% und 40% seines Gesamtvermögens in die riskante Anlage zu investieren.</li>
+        <li>Eine "ausgeglichene" Strategie bedeutet, zwischen 41% und 60% seines Gesamtvermögens in die riskante Anlage zu investieren.</li>
+        <li>Eine "wachstumsorientierte" Strategie bedeutet, zwischen 61% und 80% seines Gesamtvermögens in die riskante Anlage zu investieren.</li>
+        <li>Eine "offensive" Strategie bedeutet, zwischen 81% und 100% seines Gesamtvermögens in die riskante Anlage zu investieren.</li>
+    </ul>
+
+    <p><b>Kontrollfragen</b></p>
+
+    <p>Nehmen Sie an, ein Investor verfolgt, eine "sehr konservative" Strategie. Welchen Anteil seinens Vermögens würde er in die riskante Anlage investieren?</p>
+    <p>Zwischen <input type="number" id="id_question_7" name="question_7" value="{{ form.question_7.value }}"> und <input type="number" id="id_question_8" name="question_8" value="{{ form.question_8.value }}"> Prozent.</p>
+    <div class="form-control-errors">
+        {% for error in form.question_7.errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
+        {% for error in form.question_8.errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
+    </div>
+    {% formfield player.question_9 label="Nehmen Sie an, ein Investor investiert 87% seines Vermögens in die riskante Anlage. Welche Anlagestrategie verfolgt er?" %}
+
+
+    <div align="right">{% next_button %}</div>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Instruktionen: Kunden und Finanzberater
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        history.pushState(null, null, location.href);
+        window.onpopstate = function(event) {
+            history.go(1);
+        };
+    </script>
+{% endblock %}
+
+{% block styles%}
+    <style type="text/css">
+        .controls label {
+            margin-right: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <p>Wir machen Sie zunächst mit den beiden Rollen in diesem Experiment vertraut: <em>Kunden</em> und <em>Finanzberater</em>.</p>
+
+    <p><strong>Kunden</strong></p>
+    <p>In der Rolle des Kunden besitzen Sie {{ Constants.endowment_principals }}, die investiert werden sollen. Sie treten daher in Kontakt mit einem Finanzberater, dem Sie mitteilen, wie die Anlageentscheidung für Sie getroffen werden soll. Dazu wählen Sie eine der fünf Anlagestrategien aus, die Sie bereits in Teil 1 kennengelernt haben. Am Ende erhalten sie als Kunde das Ergebnis der für Sie getroffenen Investition als Auszahlung. Sie können Ihrem Finanzberater dann eine von vier vorgegebenen Nachrichten schicken, in der Sie Ihre Zufriedenheit oder Unzufriedenheit mit seiner Entscheidung ausdrücken.</p>
+    
+    <p><strong>Finanzberater</strong></p>
+    <p>In der Rolle des Finanzberaters treffen Sie die Investitionsentscheidung für einen Kunden. Sie erhalten dazu von Ihrem Kunden eine Mitteilung, welche Anlagestrategie für ihn verfolgt werden soll. Sie sind als Finanzberater jedoch nicht an diese Mitteilung gebunden, sondern entscheiden frei. 
+
+    {% if player.compensation == "fixed" %}
+    	Am Ende erhalten Sie als Finanzberater einen fixen Betrag in Höhe von {{ Constants.fixed_payment }} als Auszahlung.
+
+    {% elif player.compensation == "variable_result" %}
+    	Am Ende erhalten Sie als Finanzberater einen fixen Betrag in Höhe von {{ Constants.fixed_payment }} und einen prozentualen Anteil am Investitionsergebnis Ihrer Kunden als Auszahlung.
+
+    {% elif player.compensation == "variable_profit" %}
+    	Am Ende erhalten Finanzberater als Auszahlung einen fixen Betrag in Höhe von {{ Constants.fixed_payment }} und einen prozentualen Anteil am positiven Ertrag der Investition.
+
+    {% endif %}
+
+    Sie erhalten die von Ihrem Kunden ausgewählte Nachtricht zu dessen Zufriedenheit bzw. Unzufriedenheit mit Ihrer Entscheidung.</p>
+    
+
+    <p><strong>Kontrollfragen</strong></p>
+    {% formfield player.question_1 label="Als Finanzberater entscheiden Sie, welcher Anteil der 10 € Ihres Kunden in die riskante Anlage investiert wird." %}
+    
+    {% if player.compensation == "fixed" %}
+        {% formfield player.question_2 label="Als Finanzberater hängt Ihre Auszahlung vom Ausgang der Investition für Ihren Kunden ab." %}
+    {% elif player.compensation == "variable_result" %}
+        {% formfield player.question_2 label="Als Finanzberater erhalten Sie ausschließlich einen fixen Betrag als Auszahlung." %}
+    {% elif player.compensation == "variable_profit" %}
+        {% formfield player.question_2 label="Als Finanzberater erhalten Sie ausschließlich einen fixen Betrag als Auszahlung." %}
+    {% endif %}
+
+    <div align="right">{% next_button %}</div>
+
+{% endblock %}

@@ -17,6 +17,22 @@ SESSION_CONFIG_DEFAULTS = {
 
 SESSION_CONFIGS = [
     {
+        'name': 'no_uncertainty',
+        'display_name': "RiskOther - No Uncertainty - SINGLE Profit",
+        'num_demo_participants': 2,
+        'participation_fee': 4.00,
+        'app_sequence': ['no_uncertainty'],
+        'compensation': 'variable_profit', 
+    },
+    {
+        'name': 'no_accountability',
+        'display_name': "RiskOther - No Accountability - SINGLE Profit",
+        'num_demo_participants': 2,
+        'participation_fee': 4.00,
+        'app_sequence': ['no_accountability'],
+        'compensation': 'variable_profit', 
+    },
+    {
         'name': 'single_fixed',
         'display_name': "RiskOther - SINGLE Fixed",
         'num_demo_participants': 2,

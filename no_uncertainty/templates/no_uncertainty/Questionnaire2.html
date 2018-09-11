@@ -1,0 +1,71 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Fragebogen (2/2)
+{% endblock %}
+
+{% block scripts %}
+    <!--suppress ALL -->
+    <script type="text/javascript">
+        history.pushState(null, null, location.href);
+        window.onpopstate = function(event) {
+            history.go(1);
+        };
+    </script>
+{% endblock %}
+
+{% block styles%}
+    <style type="text/css">
+        .controls label {
+            margin-right: 10px;
+        }
+
+        tr {
+            font-size: 14px;
+        }
+
+        .item_header, .item {
+            text-align: center;
+        }
+
+        .form-check-input {
+            position: relative !important;
+            margin-top: 0px !important;
+            margin-left: 0px !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+	<p>
+		Bitte lesen Sie jede Aussage genau und geben Sie dann jeweils an, wie sehr Sie ihr zustimmen.
+	</p>
+
+    <table class="table table-sm table-striped">
+        <thead>
+            <tr>
+                <th>Aussage</th>
+                <th class="item_header">stimme überhaupt nicht zu</th>
+                <th class="item_header">stimme nicht nicht zu</th>
+                <th class="item_header">stimme zu</th>
+                <th class="item_header">stimme voll und ganz zu</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for field in form %}
+            <tr>
+                <td>{{ field.label }}</td>
+                {% for choice in field %}
+                    <td class="item">{{ choice.tag }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p>&nbsp;</p>
+    <div align="right">{% next_button %}</div>
+
+{% endblock %}
