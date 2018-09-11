@@ -1,0 +1,43 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Ergebnis
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        history.pushState(null, null, location.href);
+        window.onpopstate = function(event) {
+            history.go(1);
+        };
+    </script>
+{% endblock %}
+
+{% block content %}
+	<p>
+		Der Computer hat Ihnen folgende Rolle zugewiesen: <strong>Empfänger</strong>
+	</p>
+	<p>
+		Der Entscheider hat {{ player.investment }} für Sie in die riskante Anlage investiert.
+	</p>
+	<p>
+	{% if group.investment_success %}
+
+		Die Investition war erfolgreich.
+
+	{% else %}
+
+		Die Investition war nicht erfolgreich.
+
+	{% endif %}
+	</p>
+
+	<p>
+		Ihre Auszahlung aus der Investitionsentscheidung beträgt daher <strong>{{ player.payoff }}</strong>.
+	</p>
+
+    <div align="right">{% next_button %}</div>
+{% endblock %}
+
+

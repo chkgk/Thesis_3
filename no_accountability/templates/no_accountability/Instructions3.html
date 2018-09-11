@@ -1,0 +1,35 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %} 
+    Instruktionen: Ablauf des Experiments
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        history.pushState(null, null, location.href);
+        window.onpopstate = function(event) {
+            history.go(1);
+        };
+    </script>
+{% endblock %}
+
+{% block styles%}
+    <style type="text/css">
+        .controls label {
+            margin-right: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <p><strong>Ablauf</strong></p>
+    <p>In diesem Experiment werden alle Teilnehmer zunächst die Rolle des Entscheiders annehmen. Jeder Teilnehmer trifft die Investitionsentscheidung für einen Empfänger.</p>
+    <p>Der Computer wählt dann zufällig die Hälfte der Teilnehmer aus, deren Entscheidung auszahlungsrelevant wird. Das heißt, die ausgewählten Teilnehmer erhalten die Auszahlung für ihre Rolle als Entscheider. Die andere Hälfte der Teilnehmer erhält die Auszahlung für ihre Rolle als Empfänger und bekommt entsprechend das aus der Entscheidung ihres jeweiligen Entscheiders resultierende Investitionsergebnis. Ob die riskante Anlagemöglichkeit einen Erfolg oder einen Misserfolg erzielt, wird für jeden Teilnehmer individuell und zufällig durch den Computer bestimmt.</p>
+
+    <p><strong>Kontrollfrage</strong></p>
+    {% formfield player.question_6 label="Für jeden Teilnehmer sind sowohl die Rolle des Entscheiders, als auch die Rolle des Empfängers auszahlungsrelevant." %}
+
+    <div align="right">{% next_button %}</div>
+
+{% endblock %}

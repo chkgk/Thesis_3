@@ -5,10 +5,10 @@ from otree.api import (
 
 import random
 
-author = 'Luisa Kling, Christian König-Kersting'
+author = 'Luisa Kling, Christian König-Kersting, Stefan T. Trautmann'
 
 doc = """
-Group treatments of experiment 1. 
+Group treatments of Risk taking for others experiment 2018.
 """
 
 

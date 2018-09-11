@@ -1,0 +1,60 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Instruktionen: Rollen
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        history.pushState(null, null, location.href);
+        window.onpopstate = function(event) {
+            history.go(1);
+        };
+    </script>
+{% endblock %}
+
+{% block styles%}
+    <style type="text/css">
+        .controls label {
+            margin-right: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <p>Wir machen Sie zunächst mit den beiden Rollen in diesem Experiment vertraut: <em>Empfänger</em> und <em>Entscheider</em>.</p>
+
+    <p><strong>Empfänger</strong></p>
+    <p>In der Rolle des Empfängers besitzen Sie {{ Constants.endowment_principals }}. Ein Entscheider wird für Sie entscheiden, wie dieser Betrag zwischen einer sicheren und einer riskanten Anlagemöglichkeit aufgeteilt wird. Am Ende erhalten Sie als Empfänger das Ergebnis der für Sie getroffenen Entscheidung als Auszahlung.</p>
+    
+    <p><strong>Entscheider</strong></p>
+    <p>In der Rolle des Entscheiders treffen Sie die Investitionsentscheidung für den Empfänger.
+
+    {% if player.compensation == "fixed" %}
+    	Am Ende erhalten Sie als Entscheider einen fixen Betrag in Höhe von {{ Constants.fixed_payment }} als Auszahlung.
+
+    {% elif player.compensation == "variable_result" %}
+    	Am Ende erhalten Sie als Entscheider einen fixen Betrag in Höhe von {{ Constants.fixed_payment }} und einen prozentualen Anteil am Investitionsergebnis Ihrer Kunden als Auszahlung.
+
+    {% elif player.compensation == "variable_profit" %}
+    	Am Ende erhalten Sie als Entscheider einen fixen Betrag in Höhe von {{ Constants.fixed_payment }} und einen prozentualen Anteil am positiven Ertrag der Investition.
+
+    {% endif %}
+</p>
+    
+
+    <p><strong>Kontrollfragen</strong></p>
+    {% formfield player.question_1 label="Als Entscheider entscheiden Sie, welcher Anteil der 10 € des Empfängers in die riskante Anlage investiert wird." %}
+    
+    {% if player.compensation == "fixed" %}
+        {% formfield player.question_2 label="Als Entscheider hängt Ihre Auszahlung vom Ausgang der Investition für den Empfänger ab." %}
+    {% elif player.compensation == "variable_result" %}
+        {% formfield player.question_2 label="Als Entscheider erhalten Sie ausschließlich einen fixen Betrag als Auszahlung." %}
+    {% elif player.compensation == "variable_profit" %}
+        {% formfield player.question_2 label="Als Entscheider erhalten Sie ausschließlich einen fixen Betrag als Auszahlung." %}
+    {% endif %}
+
+    <div align="right">{% next_button %}</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block title %}
+    Ergebnis
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        history.pushState(null, null, location.href);
+        window.onpopstate = function(event) {
+            history.go(1);
+        };
+    </script>
+{% endblock %}
+
+{% block content %}
+	<p>
+		Der Computer hat Ihnen folgende Rolle zugewiesen: <strong>Entscheider</strong>
+	</p>
+	<p>
+		Sie haben entschieden {{ player.decision_for_p1 }} für den Empfänger in die riskante Anlage zu investieren.
+	</p>
+	<p>
+	{% if group.investment_success %}
+
+		Die Investition war erfolgreich.
+
+	{% else %}
+
+		Die Investition war nicht erfolgreich.
+
+	{% endif %}
+	</p>
+
+	<p>
+		Die Auszahlung den Empfänger aus der Investitionsentscheidung beträgt daher {{ player.payoff_of_principal }}.
+	</p>
+
+	<p>
+	{% if player.compensation == "fixed" %}
+
+		Sie erhalten einen fixen Betrag von <strong>{{ player.payoff }}</strong>
+
+	{% elif player.compensation == "variable_result" %}
+
+		Sie erhalten einen fixen Betrag von {{ Constants.fixed_payment }} und werden zusätzlich mit {{ Constants.share_result }}% am Ergebnis des Empfängers beteiligt.<br/>
+		Ihre Auszahlung beträgt daher <strong>{{ player.payoff }}</strong>.
+
+	{% elif player.compensation == "variable_profit" %}
+
+		Sie erhalten einen fixen Betrag von {{ Constants.fixed_payment }} und werden zusätzlich mit {{ Constants.share_profit }}% am Gewinn des Empfängers beteiligt.<br/>
+		Ihre Auszahlung beträgt daher <strong>{{ player.payoff }}</strong>.
+
+	{% endif %}
+	</p>
+	<p>&nbsp;</p>
+
+    <div align="right">{% next_button %}</div>
+{% endblock %}
+
+

@@ -5,7 +5,7 @@ from otree.api import (
 
 import random
 
-author = 'Luisa Kling, Christian König-Kersting'
+author = 'Luisa Kling, Christian König-Kersting, Stefan T. Trautmann'
 
 doc = """
 Risk Taking for Others Experiment 2018, no uncertainty treatment
