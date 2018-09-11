@@ -181,11 +181,11 @@ class Player(BasePlayer):
 
 # Part II: Investment for Group members
 	
-	c_principal_1 = models.CharField()
-	c_principal_2 = models.CharField()
-	c_principal_3 = models.CharField()
-	c_principal_4 = models.CharField()
-	c_principal_5 = models.CharField()
+	c_principal_1 = models.IntegerField()
+	c_principal_2 = models.IntegerField()
+	c_principal_3 = models.IntegerField()
+	c_principal_4 = models.IntegerField()
+	c_principal_5 = models.IntegerField()
 
 	def find_principals(self):
 
