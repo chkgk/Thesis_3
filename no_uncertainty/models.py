@@ -260,7 +260,7 @@ class Player(BasePlayer):
     em6 = make_empathy_question(
         "Andere Leute bestätigen, dass ich gut nachempfinden kann, was andere denken oder fühlen.")
     em7 = make_empathy_question(
-        "Ich erkenne leicht, ob jemand das, was ich erzhle, interessant oder langweilig findet.")
+        "Ich erkenne leicht, ob jemand das, was ich erzähle, interessant oder langweilig findet.")
     em8 = make_empathy_question(
         "Freunde erzählen mir normalerweise von ihren Problemen, weil sie mich für besonders verständnisvoll halten.")
     em9 = make_empathy_question("Ich bemerke, wenn ich störe, auch wenn die andere Person es nicht sagt.")
